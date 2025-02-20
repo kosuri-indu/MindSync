@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
-import 'home_screen.dart';
-import 'explore_screen.dart';
-import 'sleep_screen.dart';
-import 'insights_screen.dart';
-import 'account_screen.dart';
+import 'home_page.dart';
+import 'explore_page.dart';
+import 'sleep_page.dart';
+import 'insights_page.dart';
+import 'account_page.dart';
 
-class MainScreen extends StatefulWidget {
+class MainPage extends StatefulWidget {
   @override
   _MainScreenState createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _MainScreenState extends State<MainPage> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    HomeScreen(),
-    ExploreScreen(),
-    SleepScreen(),
-    InsightsScreen(),
-    AccountScreen(),
+    HomePage(),
+    ExplorePage(),
+    SleepPage(),
+    InsightsPage(),
+    AccountPage(),
   ];
 
   void _onItemTapped(int index) {

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-class InsightsScreen extends StatelessWidget {
+class ExplorePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Insights'),
+        title: Text('Explore'),
       ),
       body: Center(
-        child: Text('Insights Screen'),
+        child: Text('Explore Screen'),
       ),
     );
   }
