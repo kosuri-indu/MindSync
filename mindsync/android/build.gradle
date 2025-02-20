@@ -1,15 +1,14 @@
-buildscript {
+buildscript {   
+    ext.kotlin_version = '2.1.0'
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.3.0'  // Ensure this is correct
+        classpath 'com.android.tools.build:gradle:8.1.0'
     }
+
 }
-
-
-
 allprojects {
     repositories {
         google()

@@ -25,7 +25,7 @@ android {
         applicationId = "com.example.mindsync"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
+        minSdk = 23 // Update this line to set minSdkVersion to 23
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
@@ -45,11 +45,8 @@ flutter {
 }
 
 dependencies {
-    implementation platform('com.google.firebase:firebase-bom:32.0.0') // Update Firebase BoM
     implementation 'com.google.firebase:firebase-auth' // Required for Auth
-    implementation 'com.google.firebase:firebase-core'
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-messaging'
-    implementation platform('com.google.firebase:firebase-bom:32.7.0')  // Make sure this is included
-    implementation 'com.google.firebase:firebase-analytics'  // Add this
+    implementation platform('com.google.firebase:firebase-bom:32.7.0')  
 }
