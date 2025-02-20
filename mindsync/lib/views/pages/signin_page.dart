@@ -1,10 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'signup_page.dart';
+import '../../data/colors.dart';
+import 'home_page.dart';
 
-class SignInPage extends StatelessWidget {
+class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
 
   @override
+  _SignInScreenState createState() => _SignInScreenState();
+}
+
+class _SignInScreenState extends State<SignInPage> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  String? errorMessage = '';
+
+  Future<void> signIn() async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text,
+        );
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => HomePage()));
+      } on FirebaseAuthException catch (e) {
+        setState(() {
+          errorMessage = e.message;
+        });
+      }
+    }
+  }
+
+  @override
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
@@ -47,12 +78,14 @@ class SignInPage extends StatelessWidget {
                   TextButton(
                     onPressed: () {},
                     child: Text("Forgot Password?",
-                        style: TextStyle(color: Colors.green)),
+                        style: TextStyle(color: primaryColor)),
+
                   ),
                 ],
               ),
               const SizedBox(height: 20),
-              _buildButton("Sign in", Colors.green),
+              _buildButton("Sign in", primaryColor),
+
               const SizedBox(height: 20),
               Row(
                 children: const [
@@ -79,7 +112,8 @@ class SignInPage extends StatelessWidget {
                   },
                   child: Text(
                     "Don't have an account? Sign Up",
-                    style: TextStyle(color: Colors.green, fontSize: 16),
+                    style: TextStyle(color: primaryColor, fontSize: 16),
+
                   ),
                 ),
               ),
@@ -93,6 +127,8 @@ class SignInPage extends StatelessWidget {
   Widget _buildTextField(IconData icon, String hint,
       {bool isPassword = false}) {
     return TextField(
+      controller: isPassword ? passwordController : emailController,
+
       obscureText: isPassword,
       decoration: InputDecoration(
         prefixIcon: Icon(icon),
@@ -117,7 +153,8 @@ class SignInPage extends StatelessWidget {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         ),
-        onPressed: () {},
+        onPressed: signIn,
+        
         child: Text(
           text,
           style: TextStyle(fontSize: 18, color: Colors.white),

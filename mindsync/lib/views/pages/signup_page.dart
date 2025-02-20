@@ -1,9 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../../data/colors.dart';
+import 'home_page.dart';
 
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
 
   @override
+  _SignUpScreenState createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpPage> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  String? errorMessage = '';
+
+  Future<void> signUp() async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text,
+        );
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => HomePage()));
+      } on FirebaseAuthException catch (e) {
+        setState(() {
+          errorMessage = e.message;
+        });
+      }
+    }
+  }
+
+  @override
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
@@ -32,16 +63,36 @@ class SignUpPage extends StatelessWidget {
                 style: TextStyle(fontSize: 16, color: Colors.grey[600]),
               ),
               const SizedBox(height: 30),
+              Text(
+                "Full Name",
+                style: TextStyle(fontSize: 16, color: Colors.grey[800]),
+              ),
+              const SizedBox(height: 5),
               _buildTextField(Icons.person_outline, "Full Name"),
               const SizedBox(height: 15),
+              Text(
+                "Email",
+                style: TextStyle(fontSize: 16, color: Colors.grey[800]),
+              ),
+              const SizedBox(height: 5),
               _buildTextField(Icons.email_outlined, "Email"),
               const SizedBox(height: 15),
+              Text(
+                "Password",
+                style: TextStyle(fontSize: 16, color: Colors.grey[800]),
+              ),
+              const SizedBox(height: 5),
               _buildTextField(Icons.lock_outline, "Password", isPassword: true),
               const SizedBox(height: 15),
+              Text(
+                "Confirm Password",
+                style: TextStyle(fontSize: 16, color: Colors.grey[800]),
+              ),
+              const SizedBox(height: 5),
               _buildTextField(Icons.lock_outline, "Confirm Password",
                   isPassword: true),
               const SizedBox(height: 20),
-              _buildButton("Sign up", Colors.green),
+              _buildButton("Sign up", primaryColor),
               const SizedBox(height: 20),
               Row(
                 children: const [
@@ -65,7 +116,8 @@ class SignUpPage extends StatelessWidget {
                   },
                   child: Text(
                     "Already have an account? Sign In",
-                    style: TextStyle(color: Colors.green, fontSize: 16),
+                    style: TextStyle(color: primaryColor, fontSize: 16),
+
                   ),
                 ),
               ),
@@ -79,6 +131,8 @@ class SignUpPage extends StatelessWidget {
   Widget _buildTextField(IconData icon, String hint,
       {bool isPassword = false}) {
     return TextField(
+      controller: isPassword ? passwordController : emailController,
+
       obscureText: isPassword,
       decoration: InputDecoration(
         prefixIcon: Icon(icon),
@@ -103,7 +157,8 @@ class SignUpPage extends StatelessWidget {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         ),
-        onPressed: () {},
+        onPressed: signUp,
+
         child: Text(
           text,
           style: TextStyle(fontSize: 18, color: Colors.white),
