@@ -34,6 +34,7 @@ class _SignUpScreenState extends State<SignUpPage> {
   }
 
   @override
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
@@ -116,6 +117,7 @@ class _SignUpScreenState extends State<SignUpPage> {
                   child: Text(
                     "Already have an account? Sign In",
                     style: TextStyle(color: primaryColor, fontSize: 16),
+
                   ),
                 ),
               ),
@@ -130,6 +132,7 @@ class _SignUpScreenState extends State<SignUpPage> {
       {bool isPassword = false}) {
     return TextField(
       controller: isPassword ? passwordController : emailController,
+
       obscureText: isPassword,
       decoration: InputDecoration(
         prefixIcon: Icon(icon),
@@ -155,6 +158,7 @@ class _SignUpScreenState extends State<SignUpPage> {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         ),
         onPressed: signUp,
+
         child: Text(
           text,
           style: TextStyle(fontSize: 18, color: Colors.white),

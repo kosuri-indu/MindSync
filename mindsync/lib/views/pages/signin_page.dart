@@ -35,6 +35,7 @@ class _SignInScreenState extends State<SignInPage> {
   }
 
   @override
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
@@ -78,11 +79,13 @@ class _SignInScreenState extends State<SignInPage> {
                     onPressed: () {},
                     child: Text("Forgot Password?",
                         style: TextStyle(color: primaryColor)),
+
                   ),
                 ],
               ),
               const SizedBox(height: 20),
               _buildButton("Sign in", primaryColor),
+
               const SizedBox(height: 20),
               Row(
                 children: const [
@@ -110,6 +113,7 @@ class _SignInScreenState extends State<SignInPage> {
                   child: Text(
                     "Don't have an account? Sign Up",
                     style: TextStyle(color: primaryColor, fontSize: 16),
+
                   ),
                 ),
               ),
@@ -124,6 +128,7 @@ class _SignInScreenState extends State<SignInPage> {
       {bool isPassword = false}) {
     return TextField(
       controller: isPassword ? passwordController : emailController,
+
       obscureText: isPassword,
       decoration: InputDecoration(
         prefixIcon: Icon(icon),
@@ -149,6 +154,7 @@ class _SignInScreenState extends State<SignInPage> {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         ),
         onPressed: signIn,
+        
         child: Text(
           text,
           style: TextStyle(fontSize: 18, color: Colors.white),
