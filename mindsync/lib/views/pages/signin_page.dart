@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'signup_page.dart';
+import '../../data/colors.dart';
 
 class SignInPage extends StatelessWidget {
   const SignInPage({super.key});
@@ -31,8 +32,18 @@ class SignInPage extends StatelessWidget {
                 style: TextStyle(fontSize: 16, color: Colors.grey[600]),
               ),
               const SizedBox(height: 30),
+              Text(
+                "Email",
+                style: TextStyle(fontSize: 16, color: Colors.grey[800]),
+              ),
+              const SizedBox(height: 5),
               _buildTextField(Icons.email_outlined, "Email"),
               const SizedBox(height: 15),
+              Text(
+                "Password",
+                style: TextStyle(fontSize: 16, color: Colors.grey[800]),
+              ),
+              const SizedBox(height: 5),
               _buildTextField(Icons.lock_outline, "Password", isPassword: true),
               const SizedBox(height: 10),
               Row(
@@ -47,12 +58,10 @@ class SignInPage extends StatelessWidget {
                   TextButton(
                     onPressed: () {},
                     child: Text("Forgot Password?",
-                        style: TextStyle(color: Colors.green)),
+                        style: TextStyle(color: primaryColor)),
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
-              _buildButton("Sign in", Colors.green),
               const SizedBox(height: 20),
               Row(
                 children: const [
@@ -65,9 +74,8 @@ class SignInPage extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 20),
-              Center(
-                child: _buildSocialButton("assets/images/google.png"),
-              ),
+              _buildFullWidthSocialButton(
+                  "assets/images/google.png", "Sign in with Google"),
               const SizedBox(height: 20),
               Center(
                 child: TextButton(
@@ -79,13 +87,17 @@ class SignInPage extends StatelessWidget {
                   },
                   child: Text(
                     "Don't have an account? Sign Up",
-                    style: TextStyle(color: Colors.green, fontSize: 16),
+                    style: TextStyle(color: primaryColor, fontSize: 16),
                   ),
                 ),
               ),
             ],
           ),
         ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: _buildButton("Sign in", primaryColor),
       ),
     );
   }
@@ -126,13 +138,22 @@ class SignInPage extends StatelessWidget {
     );
   }
 
-  Widget _buildSocialButton(String assetPath) {
-    return GestureDetector(
-      onTap: () {},
-      child: CircleAvatar(
-        radius: 25,
-        backgroundColor: Colors.grey[200],
-        child: Image.asset(assetPath, width: 25),
+  Widget _buildFullWidthSocialButton(String assetPath, String text) {
+    return SizedBox(
+      width: double.infinity,
+      height: 50,
+      child: ElevatedButton.icon(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.grey[200],
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        ),
+        onPressed: () {},
+        icon: Image.asset(assetPath, width: 25),
+        label: Text(
+          text,
+          style: TextStyle(fontSize: 18, color: Colors.black),
+        ),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../data/colors.dart'; // Import the colors.dart file
 
 class SignUpPage extends StatelessWidget {
   const SignUpPage({super.key});
@@ -32,16 +33,36 @@ class SignUpPage extends StatelessWidget {
                 style: TextStyle(fontSize: 16, color: Colors.grey[600]),
               ),
               const SizedBox(height: 30),
+              Text(
+                "Full Name",
+                style: TextStyle(fontSize: 16, color: Colors.grey[800]),
+              ),
+              const SizedBox(height: 5),
               _buildTextField(Icons.person_outline, "Full Name"),
               const SizedBox(height: 15),
+              Text(
+                "Email",
+                style: TextStyle(fontSize: 16, color: Colors.grey[800]),
+              ),
+              const SizedBox(height: 5),
               _buildTextField(Icons.email_outlined, "Email"),
               const SizedBox(height: 15),
+              Text(
+                "Password",
+                style: TextStyle(fontSize: 16, color: Colors.grey[800]),
+              ),
+              const SizedBox(height: 5),
               _buildTextField(Icons.lock_outline, "Password", isPassword: true),
               const SizedBox(height: 15),
+              Text(
+                "Confirm Password",
+                style: TextStyle(fontSize: 16, color: Colors.grey[800]),
+              ),
+              const SizedBox(height: 5),
               _buildTextField(Icons.lock_outline, "Confirm Password",
                   isPassword: true),
               const SizedBox(height: 20),
-              _buildButton("Sign up", Colors.green),
+              _buildButton("Sign up", primaryColor),
               const SizedBox(height: 20),
               Row(
                 children: const [
@@ -65,7 +86,7 @@ class SignUpPage extends StatelessWidget {
                   },
                   child: Text(
                     "Already have an account? Sign In",
-                    style: TextStyle(color: Colors.green, fontSize: 16),
+                    style: TextStyle(color: primaryColor, fontSize: 16),
                   ),
                 ),
               ),
