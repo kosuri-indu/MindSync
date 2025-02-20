@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'views/page/splash_screen.dart';
+import 'views/pages/splash_screen.dart';
 
 void main() {
   runApp(ProviderScope(child: MyApp()));
