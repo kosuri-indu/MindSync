@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'main_page.dart';
+import 'signin_page.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -11,14 +11,14 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _navigateToMainScreen();
+    _navigateToSignInPage();
   }
 
-  _navigateToMainScreen() async {
+  _navigateToSignInPage() async {
     await Future.delayed(Duration(seconds: 3), () {});
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => MainPage()),
+      MaterialPageRoute(builder: (context) => SignInPage()),
     );
   }
 
