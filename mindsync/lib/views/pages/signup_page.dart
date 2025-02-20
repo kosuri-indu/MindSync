@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:mindsync/views/pages/main_page.dart';
+import 'package:mindsync/views/pages/info_page.dart';
 import '../../data/colors.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -25,7 +25,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => MainPage()),
+          MaterialPageRoute(builder: (context) => InfoPage()),
         );
       } on FirebaseAuthException catch (e) {
         setState(() {
@@ -42,85 +42,77 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 50),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.arrow_back),
-                        onPressed: () => Navigator.pop(context),
-                      ),
-                      const SizedBox(height: 20),
-                      Text(
-                        "Create Account",
-                        style: TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        "Sign up to get started",
-                        style: TextStyle(fontSize: 16, color: Colors.grey[600]),
-                      ),
-                      const SizedBox(height: 30),
-                      _buildTextField(
-                          Icons.email_outlined, "Email", emailController),
-                      const SizedBox(height: 15),
-                      _buildTextField(
-                          Icons.lock_outline, "Password", passwordController,
-                          isPassword: true),
-                      if (errorMessage != null && errorMessage!.isNotEmpty)
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: Text(
-                            errorMessage!,
-                            style: TextStyle(color: Colors.red, fontSize: 14),
-                          ),
-                        ),
-                      const SizedBox(height: 20),
-                      Row(
-                        children: const [
-                          Expanded(child: Divider()),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            child: Text("or continue with"),
-                          ),
-                          Expanded(child: Divider()),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      _buildSocialButton("assets/images/google.png"),
-                      const SizedBox(height: 20),
-                      Center(
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: Text(
-                            "Already have an account? Sign In",
-                            style: TextStyle(color: primaryColor, fontSize: 16),
-                          ),
-                        ),
-                      ),
-                    ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 50),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () => Navigator.pop(context),
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  "Create Account",
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              ),
+                const SizedBox(height: 5),
+                Text(
+                  "Sign up to get started",
+                  style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+                ),
+                const SizedBox(height: 30),
+                _buildTextField(Icons.email_outlined, "Email", emailController),
+                const SizedBox(height: 15),
+                _buildTextField(
+                    Icons.lock_outline, "Password", passwordController,
+                    isPassword: true),
+                if (errorMessage != null && errorMessage!.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Text(
+                      errorMessage!,
+                      style: TextStyle(color: Colors.red, fontSize: 14),
+                    ),
+                  ),
+                const SizedBox(height: 20),
+                _buildButton("Sign Up", primaryColor, signUp),
+                const SizedBox(height: 20),
+                Row(
+                  children: const [
+                    Expanded(child: Divider()),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Text("or continue with"),
+                    ),
+                    Expanded(child: Divider()),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                Center(
+                  child: _buildSocialButton("assets/images/google.png"),
+                ),
+                const SizedBox(height: 20),
+                Center(
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      "Already have an account? Sign In",
+                      style: TextStyle(color: primaryColor, fontSize: 16),
+                    ),
+                  ),
+                ),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              child: _buildButton("Sign Up", primaryColor, signUp),
-            ),
-          ],
+          ),
         ),
       ),
     );
@@ -139,8 +131,8 @@ class _SignUpPageState extends State<SignUpPage> {
         return null;
       },
       decoration: InputDecoration(
-        labelText: hint, // Add label text
         prefixIcon: Icon(icon),
+        hintText: hint,
         filled: true,
         fillColor: Colors.grey[200],
         border: OutlineInputBorder(
@@ -171,21 +163,12 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   Widget _buildSocialButton(String assetPath) {
-    return SizedBox(
-      width: double.infinity,
-      height: 50,
-      child: ElevatedButton.icon(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.grey[200],
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        ),
-        onPressed: () {},
-        icon: Image.asset(assetPath, width: 25),
-        label: Text(
-          'Sign up with Google',
-          style: TextStyle(fontSize: 18, color: Colors.black),
-        ),
+    return GestureDetector(
+      onTap: () {},
+      child: CircleAvatar(
+        radius: 25,
+        backgroundColor: Colors.grey[200],
+        child: Image.asset(assetPath, width: 25),
       ),
     );
   }
