@@ -27,23 +27,27 @@ class _VoiceChatPageState extends State<VoiceChatPage> {
   }
 
   void _initializeSpeech() async {
-    _speech = stt.SpeechToText();
-    bool available = await _speech.initialize(
-      onStatus: (status) {
-        print('Status: $status');
-        if (status == "notListening") {
-          setState(() => _isListening = false); // Reset state properly
-          _getResponse(_text);
-        }
-      },
-      onError: (error) {
-        print('Error: $error');
-        setState(() => _isListening = false); // Reset on error
-      },
-    );
+    try {
+      _speech = stt.SpeechToText();
+      bool available = await _speech.initialize(
+        onStatus: (status) {
+          print('Status: $status');
+          if (status == "notListening") {
+            setState(() => _isListening = false);
+            _getResponse(_text);
+          }
+        },
+        onError: (error) {
+          print('Error: $error');
+          setState(() => _isListening = false); // Reset on error
+        },
+      );
 
-    if (!available) {
-      print("Speech recognition is not available.");
+      if (!available) {
+        print("Speech recognition is not available.");
+      }
+    } catch (e) {
+      print("Error initializing speech: $e");
     }
   }
 
@@ -57,6 +61,7 @@ class _VoiceChatPageState extends State<VoiceChatPage> {
   Future<void> _initializeGemini() async {
     await dotenv.load(fileName: "assets/.env");
     String apiKey = dotenv.env['GEMINI_API_KEY'] ?? '';
+    print("API Key: $apiKey"); // Debugging
 
     if (apiKey.isEmpty) {
       throw Exception("API Key is missing!");
@@ -76,7 +81,7 @@ class _VoiceChatPageState extends State<VoiceChatPage> {
       Content.text(
         "You are Mindy, a kind and empathetic mental wellness assistant. "
         "Your goal is to provide gentle, non-judgmental support and encouragement. "
-        "Keep responses brief,natural,comforting, and easy to understand when spoken aloud. "
+        "Keep responses brief, natural, comforting, and easy to understand when spoken aloud. "
         "Avoid long paragraphs—respond in a conversational tone, just like a friendly chat. "
         "If someone expresses distress, offer comfort and suggest seeking professional help if needed. "
         "Always use a warm and caring voice.",
@@ -90,7 +95,7 @@ class _VoiceChatPageState extends State<VoiceChatPage> {
         onStatus: (status) {
           print('Status: $status');
           if (status == "notListening") {
-            setState(() => _isListening = false); // Ensure state updates
+            setState(() => _isListening = false);
             _getResponse(_text);
           }
         },
@@ -104,6 +109,7 @@ class _VoiceChatPageState extends State<VoiceChatPage> {
         setState(() => _isListening = true);
         _speech.listen(
           onResult: (result) {
+            print("Recognized words: ${result.recognizedWords}"); // Debugging
             setState(() {
               _text = result.recognizedWords;
             });
@@ -141,6 +147,7 @@ class _VoiceChatPageState extends State<VoiceChatPage> {
   }
 
   Future<void> _speak(String text) async {
+    print("Speaking: $text"); // Debugging
     await _flutterTts.setLanguage("en-US");
     await _flutterTts.setPitch(1.1); // Slightly higher pitch for warmth
     await _flutterTts.setSpeechRate(0.5); // Slow down for clarity
@@ -161,6 +168,15 @@ class _VoiceChatPageState extends State<VoiceChatPage> {
             Text(
               "You: $_text",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 20),
+            Text(
+              "Mindy: $_response",
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue),
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 20),
