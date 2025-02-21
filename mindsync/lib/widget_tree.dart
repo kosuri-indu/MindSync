@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mindsync/auth.dart';
-import 'package:mindsync/views/pages/home_page.dart';
 import 'package:mindsync/views/pages/main_page.dart';
 import 'package:mindsync/views/pages/signin_page.dart';
 import 'package:mindsync/views/pages/splash_screen.dart';
