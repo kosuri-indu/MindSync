@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mindsync/views/pages/home_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:mindsync/views/pages/main_page.dart';
 
 class InfoPage extends StatefulWidget {
   @override
@@ -85,7 +85,7 @@ class _InfoPageState extends State<InfoPage> {
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomePage()),
+        MaterialPageRoute(builder: (context) => MainPage()),
       );
     }
   }
