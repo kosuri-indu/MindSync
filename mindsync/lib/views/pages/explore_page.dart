@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:mindsync/data/colors.dart';
 import 'package:mindsync/views/pages/affirmations_page.dart';
+import 'package:mindsync/views/pages/challenge_page.dart';
+import 'package:mindsync/views/pages/quotes_page.dart';
+import 'package:mindsync/views/pages/thought_detox.dart';
 import 'meditation_page.dart';
 import 'breathing_page.dart';
-import 'journal_page.dart';
 
 class ExplorePage extends StatelessWidget {
   final List<Map<String, String>> exploreItems = [
     {'title': 'Meditations', 'icon': 'assets/images/meditation.png'},
     {'title': 'Breathing', 'icon': 'assets/images/breathing.png'},
     {'title': 'Articles', 'icon': 'assets/images/articles.png'},
-    {'title': 'Smart Jour...', 'icon': 'assets/images/journal.png'},
+    {'title': 'Thought Detox', 'icon': 'assets/images/journal.png'},
     {'title': 'Affirmations', 'icon': 'assets/images/affirmations.png'},
     {'title': 'Quotes', 'icon': 'assets/images/quotes.png'},
+    {'title': 'Time Capsule', 'icon': 'assets/images/time_capsule.png'},
+    {'title': 'Challenges', 'icon': 'assets/images/challenge.png'},
   ];
 
   @override
@@ -69,11 +73,11 @@ class ExplorePage extends StatelessWidget {
                                 builder: (context) => BreathingPage()),
                           );
                         } else if (exploreItems[index]['title'] ==
-                            'Smart Jour...') {
+                            'Thought Detox') {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => JournalPage()),
+                                builder: (context) => ThoughtDetoxPage()),
                           );
                         } else if (exploreItems[index]['title'] ==
                             'Affirmations') {
@@ -81,6 +85,24 @@ class ExplorePage extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => AffirmationsPage()),
+                          );
+                        } else if (exploreItems[index]['title'] == 'Quotes') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => QuotesPage()),
+                          );
+                        } else if (exploreItems[index]['title'] == 'Time Capsule') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => QuotesPage()),
+                          );
+                        } else if (exploreItems[index]['title'] == 'Challenge') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ComfortChallengePage()),
                           );
                         }
                         // Add more conditions for other pages if needed

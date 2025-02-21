@@ -13,29 +13,10 @@ class _MoodCalendarState extends State<MoodCalendar> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
 
+  // Normalize date keys (remove time component)
   final Map<DateTime, String> _moodImages = {
-    DateTime.utc(2025, 2, 1): 'assets/images/happy_face.png',
-    DateTime.utc(2025, 2, 2): 'assets/images/sad_face.png',
-    DateTime.utc(2025, 2, 3): 'assets/images/angry_face.png',
-    DateTime.utc(2025, 2, 4): 'assets/images/med_face.png',
-    DateTime.utc(2025, 2, 5): 'assets/images/laugh_face.png',
-    DateTime.utc(2025, 2, 6): 'assets/images/happy_face.png',
-    DateTime.utc(2025, 2, 7): 'assets/images/sad_face.png',
-    DateTime.utc(2025, 2, 8): 'assets/images/angry_face.png',
-    DateTime.utc(2025, 2, 9): 'assets/images/med_face.png',
-    DateTime.utc(2025, 2, 10): 'assets/images/laugh_face.png',
-    DateTime.utc(2025, 2, 11): 'assets/images/happy_face.png',
-    DateTime.utc(2025, 2, 12): 'assets/images/sad_face.png',
-    DateTime.utc(2025, 2, 13): 'assets/images/angry_face.png',
-    DateTime.utc(2025, 2, 14): 'assets/images/med_face.png',
-    DateTime.utc(2025, 2, 15): 'assets/images/laugh_face.png',
-    DateTime.utc(2025, 2, 16): 'assets/images/laugh_face.png',
-    DateTime.utc(2025, 2, 17): 'assets/images/happy_face.png',
-    DateTime.utc(2025, 2, 18): 'assets/images/sad_face.png',
-    DateTime.utc(2025, 2, 19): 'assets/images/angry_face.png',
-    DateTime.utc(2025, 2, 20): 'assets/images/med_face.png',
-    DateTime.utc(2025, 2, 21): 'assets/images/laugh_face.png',
-    // Add more dates and corresponding images as needed
+    DateTime(2025, 2, 21): 'assets/images/sad_face.png',
+    DateTime(2025, 2, 22): 'assets/images/happy_face.png',
   };
 
   @override
@@ -65,7 +46,7 @@ class _MoodCalendarState extends State<MoodCalendar> {
               onDaySelected: (selectedDay, focusedDay) {
                 setState(() {
                   _selectedDay = selectedDay;
-                  _focusedDay = focusedDay; // update `_focusedDay` here as well
+                  _focusedDay = focusedDay;
                 });
               },
               onFormatChanged: (format) {
@@ -80,19 +61,26 @@ class _MoodCalendarState extends State<MoodCalendar> {
               },
               calendarBuilders: CalendarBuilders(
                 defaultBuilder: (context, day, focusedDay) {
-                  if (_moodImages.containsKey(day)) {
+                  // Normalize the day to match stored dates
+                  DateTime normalizedDay =
+                      DateTime(day.year, day.month, day.day);
+
+                  if (_moodImages.containsKey(normalizedDay)) {
                     return Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Image.asset(
-                            _moodImages[day]!,
+                            _moodImages[normalizedDay]!,
                             height: 23,
                             width: 23,
+                            errorBuilder: (context, error, stackTrace) {
+                              return const Icon(Icons.error, color: Colors.red);
+                            },
                           ),
                           Text(
                             '${day.day}',
-                            style: TextStyle(fontSize: 12),
+                            style: const TextStyle(fontSize: 12),
                           ),
                         ],
                       ),
@@ -101,7 +89,7 @@ class _MoodCalendarState extends State<MoodCalendar> {
                     return Center(
                       child: Text(
                         '${day.day}',
-                        style: TextStyle(fontSize: 12),
+                        style: const TextStyle(fontSize: 12),
                       ),
                     );
                   }

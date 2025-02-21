@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:mindsync/data/colors.dart';
 
 class ChatbotPage extends StatefulWidget {
   @override
@@ -80,7 +81,11 @@ class _ChatbotPageState extends State<ChatbotPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Wellness Chatbot')),
+      backgroundColor: Color(0xFFF5F5F5),
+      appBar: AppBar(
+        title: Text('Wellness Chatbot'),
+        backgroundColor: primaryColor,
+      ),
       body: Column(
         children: [
           Expanded(
@@ -97,7 +102,7 @@ class _ChatbotPageState extends State<ChatbotPage> {
                     margin: EdgeInsets.symmetric(vertical: 5),
                     padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: isUser ? Colors.blue[200] : Colors.green[200],
+                      color: isUser ? Colors.white : primaryColor,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child:
@@ -115,13 +120,18 @@ class _ChatbotPageState extends State<ChatbotPage> {
                   child: TextField(
                     controller: _controller,
                     decoration: InputDecoration(
-                      hintText: "How are you feeling today?",
-                      border: OutlineInputBorder(),
+                      hintText: "How are you feeling today? ",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
                     ),
                   ),
                 ),
+                SizedBox(width: 10),
                 IconButton(
-                  icon: Icon(Icons.send),
+                  icon: Icon(Icons.send, color: primaryColor),
                   onPressed: _sendMessage,
                 ),
               ],

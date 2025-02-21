@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mindsync/data/colors.dart';
 import 'package:mindsync/views/pages/chatbot_page.dart';
+import 'package:mindsync/views/pages/meditation_page.dart';
+import 'package:mindsync/views/pages/breathing_page.dart';
+import 'package:mindsync/views/pages/thought_detox.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -144,27 +147,41 @@ class _HomePageState extends State<HomePage> {
                     title: 'Intro to Meditation',
                     category: 'Meditation',
                     duration: '8 mins',
-                    image: 'meditation.png'),
+                    image: 'meditation.png',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MeditationPage(),
+                        ),
+                      );
+                    }),
                 TaskCard(
-                    title: 'Mindfulness Techniques',
+                    title: 'Thought Detox',
                     category: 'Articles',
                     duration: '2 mins read',
-                    image: 'articles.png'),
+                    image: 'articles.png',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ThoughtDetoxPage(),
+                        ),
+                      );
+                    }),
                 TaskCard(
                     title: 'Deep Breath Dynamics',
                     category: 'Breathing',
                     duration: '2-5 mins',
-                    image: 'breathing.png'),
-                TaskCard(
-                    title: 'Smart Journal Entry',
-                    category: 'Smart Journal',
-                    duration: '20-40 secs',
-                    image: 'journal.png'),
-                TaskCard(
-                    title: 'Gratitude Meditation',
-                    category: 'Meditation',
-                    duration: '10 mins',
-                    image: 'meditation.png'),
+                    image: 'breathing.png',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BreathingPage(),
+                        ),
+                      );
+                    }),
               ],
             ),
           ),
@@ -224,41 +241,47 @@ class TaskCard extends StatelessWidget {
   final String category;
   final String duration;
   final String image;
+  final VoidCallback onTap;
 
-  TaskCard(
-      {required this.title,
-      required this.category,
-      required this.duration,
-      required this.image});
+  TaskCard({
+    required this.title,
+    required this.category,
+    required this.duration,
+    required this.image,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 8),
-      padding: EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [BoxShadow(color: Colors.grey.shade200, blurRadius: 6)],
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(category,
-                    style: TextStyle(
-                        color: primaryColor, fontWeight: FontWeight.bold)),
-                Text(title,
-                    style:
-                        TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                Text(duration, style: TextStyle(color: Colors.grey)),
-              ],
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 8),
+        padding: EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [BoxShadow(color: Colors.grey.shade200, blurRadius: 6)],
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(category,
+                      style: TextStyle(
+                          color: primaryColor, fontWeight: FontWeight.bold)),
+                  Text(title,
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                  Text(duration, style: TextStyle(color: Colors.grey)),
+                ],
+              ),
             ),
-          ),
-          Image.asset('assets/images/$image', width: 50, height: 50),
-        ],
+            Image.asset('assets/images/$image', width: 50, height: 50),
+          ],
+        ),
       ),
     );
   }

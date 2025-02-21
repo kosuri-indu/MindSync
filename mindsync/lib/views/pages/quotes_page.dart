@@ -5,17 +5,17 @@ import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mindsync/data/colors.dart'; // Ensure you have a primaryColor defined here
 
-class AffirmationsPage extends StatefulWidget {
+class QuotesPage extends StatefulWidget {
   @override
-  _AffirmationsPageState createState() => _AffirmationsPageState();
+  _QuotesPageState createState() => _QuotesPageState();
 }
 
-class _AffirmationsPageState extends State<AffirmationsPage> {
+class _QuotesPageState extends State<QuotesPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   late GenerativeModel _model;
   late ChatSession _chatSession;
-  List<String> _affirmations = [];
+  List<String> _quotes = [];
   bool _isLoading = false;
 
   @override
@@ -70,16 +70,14 @@ class _AffirmationsPageState extends State<AffirmationsPage> {
   }
 
   /// ✅ Send journal entries to Gemini & get quotes
-  Future<void> _generateAffirmations() async {
+  Future<void> _generatequotes() async {
     setState(() => _isLoading = true);
 
     List<String> journals = await _fetchJournalEntries();
     if (journals.isEmpty) {
       setState(() {
         _isLoading = false;
-        _affirmations = [
-          "No journal entries found. Start writing to get quotes!"
-        ];
+        _quotes = ["No journal entries found. Start writing to get quotes!"];
       });
       return;
     }
@@ -97,13 +95,13 @@ class _AffirmationsPageState extends State<AffirmationsPage> {
       print("Received response from Gemini: $botResponse");
 
       setState(() {
-        _affirmations =
+        _quotes =
             botResponse.split("\n").where((a) => a.trim().isNotEmpty).toList();
       });
     } catch (e) {
-      print("Error generating affirmations: $e");
+      print("Error generating quotes: $e");
       setState(() {
-        _affirmations = ["Something went wrong. Try again later."];
+        _quotes = ["Something went wrong. Try again later."];
       });
     } finally {
       setState(() => _isLoading = false);
@@ -114,7 +112,7 @@ class _AffirmationsPageState extends State<AffirmationsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),
-      appBar: AppBar(title: Text("Your Daily Affirmations")),
+      appBar: AppBar(title: Text("Your Daily Quotes")),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
@@ -123,7 +121,7 @@ class _AffirmationsPageState extends State<AffirmationsPage> {
               width: double.infinity,
               margin: EdgeInsets.only(bottom: 16.0),
               child: ElevatedButton(
-                onPressed: _isLoading ? null : _generateAffirmations,
+                onPressed: _isLoading ? null : _generatequotes,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
                   padding: EdgeInsets.symmetric(vertical: 16.0),
@@ -132,14 +130,14 @@ class _AffirmationsPageState extends State<AffirmationsPage> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                child: Text(_isLoading ? "Generating..." : "Get Affirmations",
+                child: Text(_isLoading ? "Generating..." : "Get Quotes",
                     style: TextStyle(color: Colors.black)),
               ),
             ),
             SizedBox(height: 40),
             Expanded(
               child: ListView.builder(
-                itemCount: _affirmations.length,
+                itemCount: _quotes.length,
                 itemBuilder: (context, index) {
                   bool isPrimaryColor = index % 2 == 0;
                   return Card(
@@ -147,7 +145,7 @@ class _AffirmationsPageState extends State<AffirmationsPage> {
                     margin: EdgeInsets.symmetric(vertical: 5),
                     child: ListTile(
                       title: Text(
-                        _affirmations[index],
+                        _quotes[index],
                         style: TextStyle(
                           fontSize: 16,
                           color: isPrimaryColor ? Colors.white : Colors.black,
