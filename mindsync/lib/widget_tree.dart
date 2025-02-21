@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mindsync/auth.dart';
-import 'package:mindsync/views/pages/home_page.dart';
+import 'package:mindsync/views/pages/main_page.dart';
 import 'package:mindsync/views/pages/signin_page.dart';
 import 'package:mindsync/views/pages/splash_screen.dart';
 
@@ -39,7 +39,7 @@ class _WidgetTreeState extends State<WidgetTree> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasData) {
-            return HomePage();
+            return MainPage();
           } else {
             return SignInPage();
           }
