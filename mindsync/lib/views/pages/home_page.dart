@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mindsync/data/colors.dart';
 import 'package:mindsync/views/pages/chatbot_page.dart';
+import 'package:mindsync/views/pages/voice_chat_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -115,23 +116,42 @@ class _HomePageState extends State<HomePage> {
                 ),
                 SizedBox(height: 16),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    ActionButton(
-                      text: 'Chat with Mindy',
-                      icon: Icons.chat,
-                      backgroundColor:
-                          Colors.white, // Set background color to white
-                      height: 60, // Increase height
-                      shadow: true, // Enable shadow
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ChatbotPage(),
-                          ),
-                        );
-                      },
+                    // Chat with Mindy Button
+                    Expanded(
+                      child: ActionButton(
+                        text: 'Chat with Mindy',
+                        icon: Icons.chat,
+                        backgroundColor: Colors.white,
+                        height: 60,
+                        shadow: true,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ChatbotPage()),
+                          );
+                        },
+                      ),
+                    ),
+                    SizedBox(width: 10), // Space between buttons
+                    // Voice Chat with Mindy Button
+                    Expanded(
+                      child: ActionButton(
+                        text: 'Voice Chat with Mindy',
+                        icon: Icons.mic,
+                        backgroundColor: Colors.white,
+                        height: 60,
+                        shadow: true,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => VoiceChatPage()),
+                          );
+                        },
+                      ),
                     ),
                   ],
                 ),
