@@ -21,6 +21,8 @@ dependencies:
   firebase_core_web: ^2.21.0
   table_calendar: ^3.0.0
   fl_chart: ^0.70.1
+  audioplayers: ^5.2.1
+  http: ^1.1.0
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:mindsync/data/colors.dart';
 
 class MoodTracker extends StatefulWidget {
   const MoodTracker({super.key});
@@ -16,6 +17,7 @@ class _MoodTrackerState extends State<MoodTracker> {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       elevation: 4,
+      color: Colors.white,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -60,7 +62,7 @@ class _MoodTrackerState extends State<MoodTracker> {
               FlSpot(6, 4),
             ],
             isCurved: true,
-            color: Colors.green,
+            color: primaryColor,
             barWidth: 4,
             isStrokeCapRound: true,
           ),

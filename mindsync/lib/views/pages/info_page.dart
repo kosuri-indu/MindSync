@@ -100,7 +100,12 @@ class _InfoPageState extends State<InfoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Tell us about yourself')),
+      appBar: AppBar(
+        title: Text('Tell us about yourself'),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.black),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -144,9 +149,20 @@ class _InfoPageState extends State<InfoPage> {
                   (value) => setState(() => happinessLevel = value)),
               const SizedBox(height: 20),
               Center(
-                child: ElevatedButton(
-                  onPressed: _saveDataToFirestore,
-                  child: Text('Submit'),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: _saveDataToFirestore,
+                    child: Text('Submit'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFF9EB567), // Use primary color
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 32.0, vertical: 12.0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],

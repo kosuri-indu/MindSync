@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:mindsync/data/colors.dart';
 
 class GrowthArea extends StatefulWidget {
   const GrowthArea({super.key});
@@ -16,6 +17,7 @@ class _GrowthAreaState extends State<GrowthArea> {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       elevation: 4,
+      color: Colors.white,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -58,9 +60,9 @@ class _GrowthAreaState extends State<GrowthArea> {
               RadarEntry(value: 72),
               RadarEntry(value: 54),
             ],
-            borderColor: Colors.green,
-            fillColor: Colors.green.withOpacity(0.3),
-          ),
+            borderColor: primaryColor,
+            fillColor: primaryColor.withOpacity(0.3)
+            ),
         ],
         radarShape: RadarShape.polygon,
         titlePositionPercentageOffset: 0.2,

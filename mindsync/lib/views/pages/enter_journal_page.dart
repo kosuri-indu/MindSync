@@ -16,10 +16,10 @@ class _EnterJournalPageState extends State<EnterJournalPage> {
   DateTime selectedDate = DateTime.now();
 
   final List<String> moodOptions = [
-    'assets/images/happy_face.png',
+    'assets/images/angry_face.png',
     'assets/images/sad_face.png',
     'assets/images/med_face.png',
-    'assets/images/angry_face.png',
+    'assets/images/happy_face.png',
     'assets/images/laugh_face.png',
   ];
 
@@ -36,77 +36,109 @@ class _EnterJournalPageState extends State<EnterJournalPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFF5F5F5), // Set the background color
       appBar: AppBar(
-        title: Text(widget.initialJournal == null
-            ? 'New Journal Entry'
-            : 'Edit Journal Entry'),
+        title: Text(
+            widget.initialJournal == null
+                ? 'New Journal Entry'
+                : 'Edit Journal Entry',
+            style: TextStyle(fontWeight: FontWeight.bold)),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.black),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: journalController,
-              maxLines: 10,
-              decoration: InputDecoration(
-                hintText: 'Write your journal here...',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
+        child: Container(
+          padding: const EdgeInsets.all(16.0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [BoxShadow(color: Colors.grey.shade200, blurRadius: 6)],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Select Mood:',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 10),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: moodOptions.map((String mood) {
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedMood = mood;
+                        });
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 2.0), // Reduced spacing
+                        padding: const EdgeInsets.all(4.0), // Reduced padding
+                        decoration: BoxDecoration(
+                          color: selectedMood == mood
+                              ? Colors.blue.withOpacity(0.2)
+                              : Colors.transparent,
+                          border: Border.all(
+                            color: selectedMood == mood
+                                ? Colors.blue
+                                : Colors.transparent,
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Image.asset(
+                          mood,
+                          width: 40, // Reduced size
+                          height: 40, // Reduced size
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    );
+                  }).toList(),
                 ),
               ),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              'Select Mood:',
-              style: TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 10),
-            Wrap(
-              spacing: 10,
-              children: moodOptions.map((String mood) {
-                return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      selectedMood = mood;
-                    });
+              const SizedBox(height: 20),
+              TextField(
+                controller: journalController,
+                maxLines: 10,
+                decoration: InputDecoration(
+                  hintText: 'Write your journal here...',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (journalController.text.isNotEmpty &&
+                        selectedMood != null) {
+                      Navigator.pop(context, {
+                        'date': DateFormat.yMMMd().format(selectedDate),
+                        'mood': selectedMood!,
+                        'content': journalController.text,
+                      });
+                    }
                   },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: selectedMood == mood
-                            ? Colors.blue
-                            : Colors.transparent,
-                        width: 2,
-                      ),
+                  child: Text('Save', style: TextStyle(color: Colors.white)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFF9EB567), // Use primary color
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 32.0, vertical: 12.0),
+                    shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Image.asset(
-                      mood,
-                      width: 50,
-                      height: 50,
-                      fit: BoxFit.cover,
-                    ),
                   ),
-                );
-              }).toList(),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                if (journalController.text.isNotEmpty && selectedMood != null) {
-                  Navigator.pop(context, {
-                    'date': DateFormat.yMMMd().format(selectedDate),
-                    'mood': selectedMood!,
-                    'content': journalController.text,
-                  });
-                }
-              },
-              child: Text('Save'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFF9EB567), // Use primary color
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

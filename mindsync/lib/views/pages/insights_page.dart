@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mindsync/data/colors.dart';
 import '../widgets/growth_area.dart';
 import '../widgets/mood_tracker.dart';
 import '../widgets/mood_calendar.dart';
@@ -12,6 +13,7 @@ class InsightsPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Insights"),
         centerTitle: true,
+        leading: Icon(Icons.spa, color: primaryColor),
         backgroundColor: Colors.white,
         elevation: 0,
         actions: [
@@ -21,7 +23,7 @@ class InsightsPage extends StatelessWidget {
           )
         ],
       ),
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Color(0xFFF5F5F5),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -37,4 +39,3 @@ class InsightsPage extends StatelessWidget {
     );
   }
 }
-// 

@@ -1,186 +1,258 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:mindsync/auth.dart';
-import '../../data/colors.dart'; // Ensure this import is correct
+import 'package:mindsync/data/colors.dart';
 
-class HomePage extends StatelessWidget {
-  HomePage({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
 
-  final User? user = Auth().currentUser;
-
-  Future<void> signOut() async {
-    await Auth().signOut();
-  }
-
-  Widget _title() {
-    return const Text('Home');
-  }
-
-  Widget _userUid() {
-    return Text(user?.email ?? 'User email');
-  }
-
-  Widget _signOutButton() {
-    return ElevatedButton(
-      onPressed: signOut,
-      child: const Text('Sign Out'),
-    );
-  }
+class _HomePageState extends State<HomePage> {
+  String selectedFace = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: const Text(
-          'Home',
-          style: TextStyle(
-              fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black),
-        ),
-        centerTitle: true,
-        actions: const [
-          Padding(
-            padding: EdgeInsets.only(right: 16.0),
-            child: Icon(Icons.search, color: Colors.black),
-          ),
-        ],
-      ),
-      body: Container(
-        color: backgroundColor, // Set background color
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // MindSync Banner
-            Container(
-              decoration: BoxDecoration(
-                color: primaryColor, // Set primary color
-                borderRadius: BorderRadius.circular(16),
-              ),
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      "MindSync",
-                      style: TextStyle(
-                        fontSize: 40,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        fontFamily: 'Roboto', // Apply a nice font
-                      ),
-                    ),
+      backgroundColor: Color(0xFFF5F5F5), // Set the background color
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Icon(Icons.spa, color: primaryColor),
+                    Text('Home',
+                        style: TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold)),
+                    Icon(Icons.search),
+                  ],
+                ),
+                SizedBox(height: 16),
+                Container(
+                  padding: EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: primaryColor,
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  Image.asset('assets/images/mental_health.png', height: 150),
-                ],
-              ),
-            ),
-            const SizedBox(height: 20),
-
-            // Mood Tracker Box
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white, // Set white background
-                borderRadius: BorderRadius.circular(16),
-              ),
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  const Center(
-                    child: Text(
-                      "How do you feel today?",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      moodImageButton(
-                          Image.asset('assets/images/angry_face.png'),
-                          Colors.red),
-                      moodImageButton(Image.asset('assets/images/sad_face.png'),
-                          Colors.orange),
-                      moodImageButton(Image.asset('assets/images/med_face.png'),
-                          Colors.grey),
-                      moodImageButton(
-                          Image.asset('assets/images/happy_face.png'),
-                          Colors.lightGreen),
-                      moodImageButton(
-                          Image.asset('assets/images/laugh_face.png'),
-                          Colors.green),
+                      Text(
+                        'Introduction to\nMental Health Issues',
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
+                      Image.asset('assets/images/mental_health.png',
+                          width: 100),
                     ],
                   ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 20),
-
-            // Chatbot and Smart Journal Buttons
-            Column(
-              children: [
-                chatButton(Icons.chat_bubble_outline, "Chat with AI Companion",
-                    Colors.white, context, '/chat'),
-                const SizedBox(height: 10),
-                chatButton(Icons.book, "Smart Journal", Colors.white, context,
-                    '/journal'),
+                ),
+                SizedBox(height: 16),
+                Container(
+                  padding: EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(color: Colors.grey.shade200, blurRadius: 6)
+                    ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('How do you feel today?',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold)),
+                      SizedBox(height: 8),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          for (String face in [
+                            'angry_face',
+                            'sad_face',
+                            'med_face',
+                            'happy_face',
+                            'laugh_face'
+                          ])
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  selectedFace = face;
+                                });
+                              },
+                              child: AnimatedScale(
+                                scale: selectedFace == face ? 1.2 : 1.0,
+                                duration: Duration(milliseconds: 300),
+                                child: AnimatedOpacity(
+                                  opacity: selectedFace == face ? 1.0 : 0.6,
+                                  duration: Duration(milliseconds: 300),
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    decoration: BoxDecoration(
+                                      color: selectedFace == face
+                                          ? Colors.blue.withOpacity(0.2)
+                                          : Colors.transparent,
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    child: Image.asset(
+                                        'assets/images/$face.png',
+                                        width: 50,
+                                        height: 50),
+                                  ),
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ActionButton(
+                      text: 'Chat with Mindy',
+                      icon: Icons.chat,
+                      backgroundColor:
+                          Colors.white, // Set background color to white
+                      height: 60, // Increase height
+                      shadow: true, // Enable shadow
+                    ),
+                    ActionButton(
+                      text: 'Voice talk with Mindy',
+                      icon: Icons.voice_chat,
+                      backgroundColor:
+                          Colors.white, // Set background color to white
+                      height: 60, // Increase height
+                      shadow: true, // Enable shadow
+                    ),
+                  ],
+                ),
+                SizedBox(height: 16),
+                Text('Your plans for today (0/5)',
+                    style:
+                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                SizedBox(height: 8),
+                TaskCard(
+                    title: 'Intro to Meditation',
+                    category: 'Meditation',
+                    duration: '8 mins',
+                    image: 'meditation.png'),
+                TaskCard(
+                    title: 'Mindfulness Techniques',
+                    category: 'Articles',
+                    duration: '2 mins read',
+                    image: 'articles.png'),
+                TaskCard(
+                    title: 'Deep Breath Dynamics',
+                    category: 'Breathing',
+                    duration: '2-5 mins',
+                    image: 'breathing.png'),
+                TaskCard(
+                    title: 'Smart Journal Entry',
+                    category: 'Smart Journal',
+                    duration: '20-40 secs',
+                    image: 'journal.png'),
+                TaskCard(
+                    title: 'Gratitude Meditation',
+                    category: 'Meditation',
+                    duration: '10 mins',
+                    image: 'meditation.png'),
               ],
             ),
-          ],
+          ),
         ),
       ),
     );
   }
+}
 
-  // Mood Image Button Widget
-  Widget moodImageButton(Image imagePath, Color color) {
-    return ElevatedButton(
-      onPressed: () {},
-      style: ElevatedButton.styleFrom(
-        shape: const CircleBorder(),
-        backgroundColor:
-            color.withOpacity(0.8), // More saturated background color
-        padding: const EdgeInsets.all(10), // Reduced size
-      ),
-      child: SizedBox(
-        height: 40, // Reduced size
-        width: 40, // Reduced size
-        child: imagePath,
-      ),
-    );
-  }
+class ActionButton extends StatelessWidget {
+  final String text;
+  final IconData icon;
+  final Color backgroundColor;
+  final double height;
+  final bool shadow;
 
-  // Chatbot Button Widget
-  Widget chatButton(IconData icon, String text, Color color,
-      BuildContext context, String route) {
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed: () {
-          Navigator.pushNamed(context, route);
-        },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: color, // Set background color
-          padding: const EdgeInsets.all(16),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+  ActionButton({
+    required this.text,
+    required this.icon,
+    this.backgroundColor = Colors.grey,
+    this.height = 50,
+    this.shadow = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: height / 4),
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: shadow
+              ? [BoxShadow(color: Colors.grey.shade200, blurRadius: 6)]
+              : [],
         ),
         child: Row(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 32, color: primaryColor), // Set icon color
-            const SizedBox(width: 10),
-            Text(
-              text,
-              style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: primaryColor), // Set text color
-            ),
+            Icon(icon, color: Colors.black),
+            SizedBox(width: 8),
+            Text(text, style: TextStyle(color: Colors.black)),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class TaskCard extends StatelessWidget {
+  final String title;
+  final String category;
+  final String duration;
+  final String image;
+
+  TaskCard(
+      {required this.title,
+      required this.category,
+      required this.duration,
+      required this.image});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 8),
+      padding: EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [BoxShadow(color: Colors.grey.shade200, blurRadius: 6)],
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(category,
+                    style: TextStyle(
+                        color: primaryColor, fontWeight: FontWeight.bold)),
+                Text(title,
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                Text(duration, style: TextStyle(color: Colors.grey)),
+              ],
+            ),
+          ),
+          Image.asset('assets/images/$image', width: 50, height: 50),
+        ],
       ),
     );
   }

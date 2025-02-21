@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:mindsync/data/colors.dart';
 import 'enter_journal_page.dart';
 import 'view_journal_page.dart';
 
@@ -94,11 +95,15 @@ class _JournalPageState extends State<JournalPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFF5F5F5),
       appBar: AppBar(
         title: Text('My Journals'),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: Icon(Icons.spa, color: primaryColor),
         actions: [
           IconButton(
-            icon: Icon(Icons.add),
+            icon: Icon(Icons.add, color: Colors.black),
             onPressed: () {
               Navigator.push(
                 context,
@@ -112,90 +117,94 @@ class _JournalPageState extends State<JournalPage> {
           ),
         ],
       ),
-      body: StreamBuilder<List<Map<String, dynamic>>>(
-        stream: getUserJournals(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return Center(child: CircularProgressIndicator());
-          }
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: StreamBuilder<List<Map<String, dynamic>>>(
+          stream: getUserJournals(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Center(child: CircularProgressIndicator());
+            }
 
-          var journals = snapshot.data!;
+            var journals = snapshot.data!;
 
-          return GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 8.0,
-              mainAxisSpacing: 8.0,
-            ),
-            itemCount: journals.length,
-            itemBuilder: (context, index) {
-              var journal = journals[index];
+            return GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 8.0,
+                mainAxisSpacing: 8.0,
+              ),
+              itemCount: journals.length,
+              itemBuilder: (context, index) {
+                var journal = journals[index];
 
-              return GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ViewJournalPage(
-                        journal: journal.map(
-                            (key, value) => MapEntry(key, value.toString())),
-                        onDelete: () {
-                          deleteJournal(journal['id'] ?? '').then((_) {
-                            Navigator.pop(
-                                context); // ✅ Return to JournalPage after delete
-                          });
-                        },
-                        onEdit: (updatedJournal) {
-                          updateJournal(journal['id'] ?? '', updatedJournal)
-                              .then((_) {
-                            Navigator.pop(
-                                context); // ✅ Return to JournalPage after edit
-                          });
-                        },
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ViewJournalPage(
+                          journal: journal.map(
+                              (key, value) => MapEntry(key, value.toString())),
+                          onDelete: () {
+                            deleteJournal(journal['id'] ?? '').then((_) {
+                              Navigator.pop(
+                                  context); // ✅ Return to JournalPage after delete
+                            });
+                          },
+                          onEdit: (updatedJournal) {
+                            updateJournal(journal['id'] ?? '', updatedJournal)
+                                .then((_) {
+                              Navigator.pop(
+                                  context); // ✅ Return to JournalPage after edit
+                            });
+                          },
+                        ),
+                      ),
+                    );
+                  },
+                  child: Card(
+                    elevation: 4.0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            journal['date'] ?? 'No Date',
+                            style: TextStyle(fontSize: 12, color: Colors.grey),
+                          ),
+                          const SizedBox(height: 8),
+                          journal['mood'] != null
+                              ? Image.asset(
+                                  journal['mood']!,
+                                  width: 50,
+                                  height: 50,
+                                  fit: BoxFit.cover,
+                                )
+                              : Container(),
+                          const SizedBox(height: 8),
+                          Expanded(
+                            child: Text(
+                              journal['content'] ?? 'No Content',
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 5,
+                              style: TextStyle(fontSize: 14),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  );
-                },
-                child: Card(
-                  elevation: 4.0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
                   ),
-                  color: Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          journal['date'] ?? 'No Date',
-                          style: TextStyle(fontSize: 12, color: Colors.grey),
-                        ),
-                        const SizedBox(height: 8),
-                        journal['mood'] != null
-                            ? Image.asset(
-                                journal['mood']!,
-                                width: 50,
-                                height: 50,
-                                fit: BoxFit.cover,
-                              )
-                            : Container(),
-                        const SizedBox(height: 8),
-                        Expanded(
-                          child: Text(
-                            journal['content'] ?? 'No Content',
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 5,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            },
-          );
-        },
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }
