@@ -67,10 +67,17 @@ class _InfoPageState extends State<InfoPage> {
   ];
 
   Future<void> _saveDataToFirestore() async {
-    if (_formKey.currentState!.validate()) {
-      String uid = FirebaseAuth.instance.currentUser!.uid;
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      print("User not authenticated. Redirecting to login...");
+      return;
+    }
 
+    String uid = user.uid;
+
+    if (_formKey.currentState!.validate()) {
       await FirebaseFirestore.instance.collection('users').doc(uid).set({
+        'userId': uid, // Ensures Firestore security rule conditions are met
         'name': nameController.text,
         'age': int.tryParse(ageController.text) ?? 0,
         'gender': gender,
@@ -81,7 +88,7 @@ class _InfoPageState extends State<InfoPage> {
         'meditationExperience': meditationExperience,
         'sleepQuality': sleepQuality,
         'happinessLevel': happinessLevel,
-      });
+      }, SetOptions(merge: true)); // Merge prevents overwriting existing fields
 
       Navigator.pushReplacement(
         context,
@@ -109,17 +116,14 @@ class _InfoPageState extends State<InfoPage> {
               _buildTextField('How old are you?', ageController,
                   keyboardType: TextInputType.number),
               const SizedBox(height: 20),
-              _buildMultiSelectField('What are your main goals?', goalsOptions,
-                  goals, (value) => setState(() => goals = value)),
-              const SizedBox(height: 20),
               _buildMultiSelectField(
-                  'What causes your mental health issues?',
-                  causesOptions,
-                  causes,
-                  (value) => setState(() => causes = value)),
+                  'What are your main goals?', goalsOptions, goals),
+              const SizedBox(height: 20),
+              _buildMultiSelectField('What causes your mental health issues?',
+                  causesOptions, causes),
               const SizedBox(height: 20),
               _buildDropdownField(
-                  'How often do you feel stressed or anxious in the last 12 months?',
+                  'How often do you feel stressed?',
                   stressFrequencyOptions,
                   (value) => setState(() => stressFrequency = value)),
               const SizedBox(height: 20),
@@ -132,13 +136,11 @@ class _InfoPageState extends State<InfoPage> {
                   (value) => setState(() => meditationExperience = value)),
               const SizedBox(height: 20),
               _buildDropdownField(
-                  'How would you rate your sleep quality overall?',
+                  'How would you rate your sleep quality?',
                   sleepQualityOptions,
                   (value) => setState(() => sleepQuality = value)),
               const SizedBox(height: 20),
-              _buildDropdownField(
-                  'How would you rate your level of happiness overall?',
-                  happinessLevelOptions,
+              _buildDropdownField('How happy are you?', happinessLevelOptions,
                   (value) => setState(() => happinessLevel = value)),
               const SizedBox(height: 20),
               Center(
@@ -183,8 +185,8 @@ class _InfoPageState extends State<InfoPage> {
     );
   }
 
-  Widget _buildMultiSelectField(String label, List<String> options,
-      List<String> selectedValues, ValueChanged<List<String>> onChanged) {
+  Widget _buildMultiSelectField(
+      String label, List<String> options, List<String> selectedValues) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -202,7 +204,6 @@ class _InfoPageState extends State<InfoPage> {
                   selected
                       ? selectedValues.add(option)
                       : selectedValues.remove(option);
-                  onChanged(selectedValues);
                 });
               },
             );
