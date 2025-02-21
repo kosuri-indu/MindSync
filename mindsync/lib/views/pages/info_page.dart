@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mindsync/views/pages/home_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class InfoPage extends StatefulWidget {
   @override
@@ -9,8 +11,8 @@ class InfoPage extends StatefulWidget {
 class _InfoPageState extends State<InfoPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController nameController = TextEditingController();
+  final TextEditingController ageController = TextEditingController();
   String? gender;
-  int? age;
   List<String> goals = [];
   List<String> causes = [];
   String? stressFrequency;
@@ -64,12 +66,34 @@ class _InfoPageState extends State<InfoPage> {
     'Other'
   ];
 
+  Future<void> _saveDataToFirestore() async {
+    if (_formKey.currentState!.validate()) {
+      String uid = FirebaseAuth.instance.currentUser!.uid;
+
+      await FirebaseFirestore.instance.collection('users').doc(uid).set({
+        'name': nameController.text,
+        'age': int.tryParse(ageController.text) ?? 0,
+        'gender': gender,
+        'goals': goals,
+        'causes': causes,
+        'stressFrequency': stressFrequency,
+        'healthyEating': healthyEating,
+        'meditationExperience': meditationExperience,
+        'sleepQuality': sleepQuality,
+        'happinessLevel': happinessLevel,
+      });
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomePage()),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Tell us about yourself'),
-      ),
+      appBar: AppBar(title: Text('Tell us about yourself')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -80,78 +104,46 @@ class _InfoPageState extends State<InfoPage> {
               _buildTextField('What should we call you?', nameController),
               const SizedBox(height: 20),
               _buildDropdownField('What is your gender?', genderOptions,
-                  (value) {
-                setState(() {
-                  gender = value;
-                });
-              }),
+                  (value) => setState(() => gender = value)),
               const SizedBox(height: 20),
-              _buildTextField('How old are you?', TextEditingController(),
+              _buildTextField('How old are you?', ageController,
                   keyboardType: TextInputType.number),
               const SizedBox(height: 20),
-              _buildMultiSelectField(
-                  'What are your main goals?', goalsOptions, goals, (value) {
-                setState(() {
-                  goals = value;
-                });
-              }),
+              _buildMultiSelectField('What are your main goals?', goalsOptions,
+                  goals, (value) => setState(() => goals = value)),
               const SizedBox(height: 20),
-              _buildMultiSelectField('What causes your mental health issues?',
-                  causesOptions, causes, (value) {
-                setState(() {
-                  causes = value;
-                });
-              }),
+              _buildMultiSelectField(
+                  'What causes your mental health issues?',
+                  causesOptions,
+                  causes,
+                  (value) => setState(() => causes = value)),
               const SizedBox(height: 20),
               _buildDropdownField(
                   'How often do you feel stressed or anxious in the last 12 months?',
-                  stressFrequencyOptions, (value) {
-                setState(() {
-                  stressFrequency = value;
-                });
-              }),
+                  stressFrequencyOptions,
+                  (value) => setState(() => stressFrequency = value)),
               const SizedBox(height: 20),
               _buildDropdownField('Do you eat healthy?', healthyEatingOptions,
-                  (value) {
-                setState(() {
-                  healthyEating = value;
-                });
-              }),
+                  (value) => setState(() => healthyEating = value)),
               const SizedBox(height: 20),
-              _buildDropdownField('Have you tried meditation before?',
-                  meditationExperienceOptions, (value) {
-                setState(() {
-                  meditationExperience = value;
-                });
-              }),
+              _buildDropdownField(
+                  'Have you tried meditation before?',
+                  meditationExperienceOptions,
+                  (value) => setState(() => meditationExperience = value)),
               const SizedBox(height: 20),
               _buildDropdownField(
                   'How would you rate your sleep quality overall?',
-                  sleepQualityOptions, (value) {
-                setState(() {
-                  sleepQuality = value;
-                });
-              }),
+                  sleepQualityOptions,
+                  (value) => setState(() => sleepQuality = value)),
               const SizedBox(height: 20),
               _buildDropdownField(
                   'How would you rate your level of happiness overall?',
-                  happinessLevelOptions, (value) {
-                setState(() {
-                  happinessLevel = value;
-                });
-              }),
+                  happinessLevelOptions,
+                  (value) => setState(() => happinessLevel = value)),
               const SizedBox(height: 20),
               Center(
                 child: ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      // Handle form submission
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => HomePage()),
-                      );
-                    }
-                  },
+                  onPressed: _saveDataToFirestore,
                   child: Text('Submit'),
                 ),
               ),
@@ -167,18 +159,11 @@ class _InfoPageState extends State<InfoPage> {
     return TextFormField(
       controller: controller,
       keyboardType: keyboardType,
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return '$label cannot be empty';
-        }
-        return null;
-      },
+      validator: (value) =>
+          (value == null || value.isEmpty) ? '$label cannot be empty' : null,
       decoration: InputDecoration(
-        labelText: label,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-      ),
+          labelText: label,
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
     );
   }
 
@@ -186,24 +171,15 @@ class _InfoPageState extends State<InfoPage> {
       String label, List<String> options, ValueChanged<String?> onChanged) {
     return DropdownButtonFormField<String>(
       decoration: InputDecoration(
-        labelText: label,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-      ),
-      items: options.map((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
+          labelText: label,
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+      items: options
+          .map((String value) =>
+              DropdownMenuItem<String>(value: value, child: Text(value)))
+          .toList(),
       onChanged: onChanged,
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return '$label cannot be empty';
-        }
-        return null;
-      },
+      validator: (value) =>
+          (value == null || value.isEmpty) ? '$label cannot be empty' : null,
     );
   }
 
@@ -212,10 +188,8 @@ class _InfoPageState extends State<InfoPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        ),
+        Text(label,
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         const SizedBox(height: 10),
         Wrap(
           spacing: 10,
@@ -225,11 +199,9 @@ class _InfoPageState extends State<InfoPage> {
               selected: selectedValues.contains(option),
               onSelected: (bool selected) {
                 setState(() {
-                  if (selected) {
-                    selectedValues.add(option);
-                  } else {
-                    selectedValues.remove(option);
-                  }
+                  selected
+                      ? selectedValues.add(option)
+                      : selectedValues.remove(option);
                   onChanged(selectedValues);
                 });
               },
