@@ -23,6 +23,7 @@ dependencies:
   fl_chart: ^0.70.1
   audioplayers: ^5.2.1
   http: ^1.1.0
+  google_generative_ai: ^0.4.0
 
 dev_dependencies:
   flutter_test:

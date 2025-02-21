@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mindsync/data/colors.dart';
+import 'package:mindsync/views/pages/chatbot_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -95,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                                     padding: EdgeInsets.all(8),
                                     decoration: BoxDecoration(
                                       color: selectedFace == face
-                                          ? Colors.blue.withOpacity(0.2)
+                                          ? primaryColor.withOpacity(0.2)
                                           : Colors.transparent,
                                       borderRadius: BorderRadius.circular(12),
                                     ),
@@ -123,14 +124,14 @@ class _HomePageState extends State<HomePage> {
                           Colors.white, // Set background color to white
                       height: 60, // Increase height
                       shadow: true, // Enable shadow
-                    ),
-                    ActionButton(
-                      text: 'Voice talk with Mindy',
-                      icon: Icons.voice_chat,
-                      backgroundColor:
-                          Colors.white, // Set background color to white
-                      height: 60, // Increase height
-                      shadow: true, // Enable shadow
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ChatbotPage(),
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -179,6 +180,7 @@ class ActionButton extends StatelessWidget {
   final Color backgroundColor;
   final double height;
   final bool shadow;
+  final VoidCallback onPressed;
 
   ActionButton({
     required this.text,
@@ -186,27 +188,31 @@ class ActionButton extends StatelessWidget {
     this.backgroundColor = Colors.grey,
     this.height = 50,
     this.shadow = false,
+    required this.onPressed,
   });
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: height / 4),
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: shadow
-              ? [BoxShadow(color: Colors.grey.shade200, blurRadius: 6)]
-              : [],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, color: Colors.black),
-            SizedBox(width: 8),
-            Text(text, style: TextStyle(color: Colors.black)),
-          ],
+      child: GestureDetector(
+        onTap: onPressed,
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: height / 4),
+          decoration: BoxDecoration(
+            color: backgroundColor,
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: shadow
+                ? [BoxShadow(color: Colors.grey.shade200, blurRadius: 6)]
+                : [],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, color: Colors.black),
+              SizedBox(width: 8),
+              Text(text, style: TextStyle(color: Colors.black)),
+            ],
+          ),
         ),
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mindsync/data/colors.dart';
+import 'package:mindsync/views/pages/affirmations_page.dart';
 import 'meditation_page.dart';
 import 'breathing_page.dart';
 import 'journal_page.dart';
@@ -73,6 +74,13 @@ class ExplorePage extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => JournalPage()),
+                          );
+                        } else if (exploreItems[index]['title'] ==
+                            'Affirmations') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AffirmationsPage()),
                           );
                         }
                         // Add more conditions for other pages if needed
