@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'home_page.dart';
 import 'explore_page.dart';
-import 'sleep_page.dart';
+import 'journal_page.dart';
 import 'insights_page.dart';
 import 'account_page.dart';
 
@@ -16,7 +16,7 @@ class _MainScreenState extends State<MainPage> {
   final List<Widget> _pages = [
     HomePage(),
     ExplorePage(),
-    SleepPage(),
+    JournalPage(), // Updated to JournalPage
     InsightsPage(),
     AccountPage(),
   ];
@@ -52,9 +52,11 @@ class _MainScreenState extends State<MainPage> {
             ),
             BottomNavigationBarItem(
               icon: Icon(
-                _selectedIndex == 2 ? Icons.bedtime : Icons.bedtime_outlined,
+                _selectedIndex == 2
+                    ? Icons.book
+                    : Icons.book_outlined, // Updated to book icon
               ),
-              label: 'Sleep',
+              label: 'Journal', // Updated label
             ),
             BottomNavigationBarItem(
               icon: Icon(
@@ -78,8 +80,6 @@ class _MainScreenState extends State<MainPage> {
           onTap: _onItemTapped,
           type: BottomNavigationBarType.fixed,
           iconSize: 25,
-          selectedFontSize: 12,
-          unselectedFontSize: 12,
         ),
       ),
     );

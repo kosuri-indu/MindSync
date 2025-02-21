@@ -82,8 +82,6 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ),
                 const SizedBox(height: 20),
-                _buildButton("Sign Up", primaryColor, signUp),
-                const SizedBox(height: 20),
                 Row(
                   children: const [
                     Expanded(child: Divider()),
@@ -115,6 +113,10 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
         ),
       ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: _buildButton("Sign Up", primaryColor, signUp),
+      ),
     );
   }
 
@@ -131,6 +133,7 @@ class _SignUpPageState extends State<SignUpPage> {
         return null;
       },
       decoration: InputDecoration(
+        labelText: hint, // Add label text
         prefixIcon: Icon(icon),
         hintText: hint,
         filled: true,
@@ -163,12 +166,21 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   Widget _buildSocialButton(String assetPath) {
-    return GestureDetector(
-      onTap: () {},
-      child: CircleAvatar(
-        radius: 25,
-        backgroundColor: Colors.grey[200],
-        child: Image.asset(assetPath, width: 25),
+    return SizedBox(
+      width: double.infinity,
+      height: 50,
+      child: ElevatedButton.icon(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.grey[200],
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        ),
+        onPressed: () {},
+        icon: Image.asset(assetPath, width: 25),
+        label: Text(
+          'Sign in with Google',
+          style: TextStyle(fontSize: 18, color: Colors.black),
+        ),
       ),
     );
   }
