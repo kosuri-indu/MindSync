@@ -171,7 +171,7 @@ class _HomePageState extends State<HomePage> {
                 TaskCard(
                     title: 'Intro to Meditation',
                     category: 'Meditation',
-                    duration: '8 mins',
+                    duration: '2-5-10-15 mins',
                     image: 'meditation.png',
                     onTap: () {
                       Navigator.push(
@@ -184,7 +184,7 @@ class _HomePageState extends State<HomePage> {
                 TaskCard(
                     title: 'Thought Detox',
                     category: 'Articles',
-                    duration: '2 mins read',
+                    duration: 'Detox your intrusive thoughts',
                     image: 'articles.png',
                     onTap: () {
                       Navigator.push(
