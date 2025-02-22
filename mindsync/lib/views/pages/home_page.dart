@@ -103,7 +103,7 @@ class _HomePageState extends State<HomePage> {
                                   opacity: selectedFace == face ? 1.0 : 0.6,
                                   duration: Duration(milliseconds: 300),
                                   child: Container(
-                                    padding: EdgeInsets.all(8),
+                                    padding: EdgeInsets.all(3),
                                     decoration: BoxDecoration(
                                       color: selectedFace == face
                                           ? primaryColor.withOpacity(0.2)
@@ -127,10 +127,10 @@ class _HomePageState extends State<HomePage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // Chat with Mindy Button
+                    // Chat with Snehi Button
                     Expanded(
                       child: ActionButton(
-                        text: 'Chat with Mindy',
+                        text: 'Chat with Snehi',
                         icon: Icons.chat,
                         backgroundColor: Colors.white,
                         height: 60,
@@ -144,10 +144,10 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
                     ),
-                    // Voice Chat with Mindy Button
+                    // Voice Chat with Snehi Button
                     Expanded(
                       child: ActionButton(
-                        text: 'Voice Chat with Mindy',
+                        text: 'Talk with Snehi',
                         icon: Icons.mic,
                         backgroundColor: Colors.white,
                         height: 60,

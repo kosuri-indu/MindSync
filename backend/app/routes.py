@@ -3,7 +3,6 @@ import random
 
 main = Blueprint("main", __name__)
 
-# Sample messages and quotes
 positive_messages = [
     "You are stronger than you think!",
     "Every day is a new beginning.",
