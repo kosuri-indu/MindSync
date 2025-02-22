@@ -149,24 +149,4 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
     );
   }
-
-  Widget _buildSocialButton(String assetPath) {
-    return SizedBox(
-      width: double.infinity,
-      height: 50,
-      child: ElevatedButton.icon(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.grey[200],
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        ),
-        onPressed: () {},
-        icon: Image.asset(assetPath, width: 25),
-        label: Text(
-          'Sign in with Google',
-          style: TextStyle(fontSize: 18, color: Colors.black),
-        ),
-      ),
-    );
-  }
 }
