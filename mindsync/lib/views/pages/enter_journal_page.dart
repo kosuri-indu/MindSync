@@ -36,7 +36,7 @@ class _EnterJournalPageState extends State<EnterJournalPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF5F5F5), // Set the background color
+      backgroundColor: Color(0xFFF5F5F5), 
       appBar: AppBar(
         title: Text(
             widget.initialJournal == null
@@ -76,8 +76,8 @@ class _EnterJournalPageState extends State<EnterJournalPage> {
                       },
                       child: Container(
                         margin: const EdgeInsets.symmetric(
-                            horizontal: 2.0), // Reduced spacing
-                        padding: const EdgeInsets.all(4.0), // Reduced padding
+                            horizontal: 2.0),
+                        padding: const EdgeInsets.all(4.0), 
                         decoration: BoxDecoration(
                           color: selectedMood == mood
                               ? Colors.blue.withOpacity(0.2)
@@ -92,8 +92,8 @@ class _EnterJournalPageState extends State<EnterJournalPage> {
                         ),
                         child: Image.asset(
                           mood,
-                          width: 40, // Reduced size
-                          height: 40, // Reduced size
+                          width: 40, 
+                          height: 40, 
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -128,7 +128,7 @@ class _EnterJournalPageState extends State<EnterJournalPage> {
                   },
                   child: Text('Save', style: TextStyle(color: Colors.white)),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF9EB567), // Use primary color
+                    backgroundColor: Color(0xFF9EB567), 
                     padding: const EdgeInsets.symmetric(
                         horizontal: 32.0, vertical: 12.0),
                     shape: RoundedRectangleBorder(

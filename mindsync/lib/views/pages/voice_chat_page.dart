@@ -39,7 +39,7 @@ class _VoiceChatPageState extends State<VoiceChatPage> {
         },
         onError: (error) {
           print('Error: $error');
-          setState(() => _isListening = false); // Reset on error
+          setState(() => _isListening = false); 
         },
       );
 
@@ -61,7 +61,7 @@ class _VoiceChatPageState extends State<VoiceChatPage> {
   Future<void> _initializeGemini() async {
     await dotenv.load(fileName: "assets/.env");
     String apiKey = dotenv.env['GEMINI_API_KEY'] ?? '';
-    print("API Key: $apiKey"); // Debugging
+    print("API Key: $apiKey"); 
 
     if (apiKey.isEmpty) {
       throw Exception("API Key is missing!");
@@ -109,21 +109,21 @@ class _VoiceChatPageState extends State<VoiceChatPage> {
         setState(() => _isListening = true);
         _speech.listen(
           onResult: (result) {
-            print("Recognized words: ${result.recognizedWords}"); // Debugging
+            print("Recognized words: ${result.recognizedWords}"); 
             setState(() {
               _text = result.recognizedWords;
             });
           },
           onSoundLevelChange: (level) {
-            print("Sound level: $level"); // Debugging
+            print("Sound level: $level"); 
           },
         );
       } else {
         print("Speech recognition not available.");
       }
     } else {
-      _speech.stop(); // Manually stop speech recognition
-      setState(() => _isListening = false); // Ensure button color resets
+      _speech.stop(); 
+      setState(() => _isListening = false); 
     }
   }
 
@@ -139,7 +139,7 @@ class _VoiceChatPageState extends State<VoiceChatPage> {
         _response = botMessage;
       });
 
-      _speak(botMessage); // Speak Mindy's response
+      _speak(botMessage); 
     } catch (e) {
       print("Error: $e");
       _speak("I'm here for you. Let's take a deep breath together.");
@@ -147,11 +147,11 @@ class _VoiceChatPageState extends State<VoiceChatPage> {
   }
 
   Future<void> _speak(String text) async {
-    print("Speaking: $text"); // Debugging
+    print("Speaking: $text"); 
     await _flutterTts.setLanguage("en-US");
-    await _flutterTts.setPitch(1.1); // Slightly higher pitch for warmth
-    await _flutterTts.setSpeechRate(0.5); // Slow down for clarity
-    await _flutterTts.setVolume(1.0); // Ensure good volume
+    await _flutterTts.setPitch(1.1); 
+    await _flutterTts.setSpeechRate(0.5); 
+    await _flutterTts.setVolume(1.0); 
 
     await _flutterTts.speak(text);
   }

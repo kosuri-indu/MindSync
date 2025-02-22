@@ -169,7 +169,6 @@ class _AccountPageState extends State<AccountPage> {
               Icons.cleaning_services, "Thought Detox", ThoughtDetoxPage()),
           _buildListItem(Icons.emoji_events, "Comfort Zone Challenge",
               ComfortChallengePage()),
-          _buildListItem(Icons.lock_clock, "Time Capsule", ThoughtDetoxPage()),
         ],
       ),
     );

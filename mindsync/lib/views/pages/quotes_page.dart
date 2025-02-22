@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:mindsync/data/colors.dart'; // Ensure you have a primaryColor defined here
+import 'package:mindsync/data/colors.dart'; 
 
 class QuotesPage extends StatefulWidget {
   @override
@@ -50,7 +50,6 @@ class _QuotesPageState extends State<QuotesPage> {
     ]);
   }
 
-  /// ✅ Fetch user's last 5 journal entries
   Future<List<String>> _fetchJournalEntries() async {
     User? user = _auth.currentUser;
     if (user == null) return [];
@@ -69,7 +68,6 @@ class _QuotesPageState extends State<QuotesPage> {
     return journalEntries;
   }
 
-  /// ✅ Send journal entries to Gemini & get quotes
   Future<void> _generatequotes() async {
     setState(() => _isLoading = true);
 

@@ -13,7 +13,6 @@ class _MoodCalendarState extends State<MoodCalendar> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
 
-  // Normalize date keys (remove time component)
   final Map<DateTime, String> _moodImages = {
     DateTime(2025, 2, 21): 'assets/images/sad_face.png',
     DateTime(2025, 2, 22): 'assets/images/happy_face.png',
@@ -61,7 +60,6 @@ class _MoodCalendarState extends State<MoodCalendar> {
               },
               calendarBuilders: CalendarBuilders(
                 defaultBuilder: (context, day, focusedDay) {
-                  // Normalize the day to match stored dates
                   DateTime normalizedDay =
                       DateTime(day.year, day.month, day.day);
 

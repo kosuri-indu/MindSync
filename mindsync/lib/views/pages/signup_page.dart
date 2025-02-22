@@ -118,7 +118,7 @@ class _SignUpPageState extends State<SignUpPage> {
         return null;
       },
       decoration: InputDecoration(
-        labelText: hint, // Add label text
+        labelText: hint, 
         prefixIcon: Icon(icon),
         hintText: hint,
         filled: true,

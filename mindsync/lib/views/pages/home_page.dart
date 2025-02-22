@@ -17,7 +17,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF5F5F5), // Set the background color
+      backgroundColor: Color(0xFFF5F5F5),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
-                    Container(width: 24), // Placeholder to balance the Row
+                    Container(width: 24), 
                   ],
                 ),
                 SizedBox(height: 16),
@@ -127,7 +127,6 @@ class _HomePageState extends State<HomePage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // Chat with Snehi Button
                     Expanded(
                       child: ActionButton(
                         text: 'Chat with Snehi',
@@ -144,7 +143,6 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
                     ),
-                    // Voice Chat with Snehi Button
                     Expanded(
                       child: ActionButton(
                         text: 'Talk with Snehi',

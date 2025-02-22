@@ -42,7 +42,7 @@ class ExplorePage extends StatelessWidget {
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
               SizedBox(height: 16),
               SizedBox(
-                height: 400, // Adjust the height as needed
+                height: 400, 
                 child: GridView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
@@ -117,7 +117,6 @@ class ExplorePage extends StatelessWidget {
                                 builder: (context) => ThoughtSortingGame()),
                           );
                         }
-                        // Add more conditions for other pages if needed
                       },
                       child: Container(
                         decoration: BoxDecoration(

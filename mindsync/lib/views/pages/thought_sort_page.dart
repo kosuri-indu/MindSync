@@ -90,10 +90,10 @@ class _ThoughtSortingGameState extends State<ThoughtSortingGame> {
       List<String> thoughts = responseText
           .split(RegExp(r'[,"\n]'))
           .map(
-              (e) => e.trim().replaceAll('*', '')) // Remove unwanted characters
+              (e) => e.trim().replaceAll('*', '')) 
           .where((e) => e.split(' ').length <= 2 && e.isNotEmpty)
           .map((e) => e.replaceAll(
-              RegExp(r'[^a-zA-Z\s]'), '')) // Remove non-alphabetic characters
+              RegExp(r'[^a-zA-Z\s]'), ''))
           .toList();
 
       if (mounted) {
@@ -106,7 +106,6 @@ class _ThoughtSortingGameState extends State<ThoughtSortingGame> {
           }
         });
 
-        // Fetch opposite words
         for (var thought in thoughts) {
           await _fetchOppositeWord(thought);
         }
@@ -209,7 +208,7 @@ class ThoughtWordCloud extends StatelessWidget {
       runSpacing: 10,
       children: thoughts.entries.expand((entry) {
         double fontSize =
-            14 + (entry.value * 3).toDouble(); // Adjust size based on frequency
+            14 + (entry.value * 3).toDouble(); 
         return [
           Container(
             padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),

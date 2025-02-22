@@ -20,7 +20,6 @@ class _JournalPageState extends State<JournalPage> {
     return user;
   }
 
-  /// ✅ Fetch journals from `users/{userId}/journals/`
   Stream<List<Map<String, dynamic>>> getUserJournals() {
     if (currentUser == null) {
       print("User not authenticated. Cannot fetch journals.");
@@ -30,7 +29,7 @@ class _JournalPageState extends State<JournalPage> {
     return _firestore
         .collection('users')
         .doc(currentUser!.uid)
-        .collection('journals') // ✅ Fetch from correct path
+        .collection('journals') 
         .snapshots()
         .map((snapshot) {
       print('Fetched ${snapshot.docs.length} journals');
@@ -38,7 +37,6 @@ class _JournalPageState extends State<JournalPage> {
     });
   }
 
-  /// ✅ Store journal under `users/{userId}/journals/`
   Future<void> addJournal(Map<String, String> journal) async {
     if (currentUser == null) {
       print("User not authenticated. Cannot add journal.");
@@ -48,7 +46,7 @@ class _JournalPageState extends State<JournalPage> {
     await _firestore
         .collection('users')
         .doc(currentUser!.uid)
-        .collection('journals') // ✅ Save inside user collection
+        .collection('journals') 
         .add({
       'userId': currentUser!.uid,
       'date': journal['date'],
@@ -57,7 +55,6 @@ class _JournalPageState extends State<JournalPage> {
     });
   }
 
-  /// ✅ Update journal at `users/{userId}/journals/{journalId}`
   Future<void> updateJournal(
       String id, Map<String, String> updatedJournal) async {
     if (currentUser == null) {
@@ -68,7 +65,7 @@ class _JournalPageState extends State<JournalPage> {
     await _firestore
         .collection('users')
         .doc(currentUser!.uid)
-        .collection('journals') // ✅ Correct path for update
+        .collection('journals') 
         .doc(id)
         .update({
       'date': updatedJournal['date'],
@@ -77,7 +74,6 @@ class _JournalPageState extends State<JournalPage> {
     });
   }
 
-  /// ✅ Delete journal from `users/{userId}/journals/{journalId}`
   Future<void> deleteJournal(String id) async {
     if (currentUser == null) {
       print("User not authenticated. Cannot delete journal.");
@@ -87,7 +83,7 @@ class _JournalPageState extends State<JournalPage> {
     await _firestore
         .collection('users')
         .doc(currentUser!.uid)
-        .collection('journals') // ✅ Correct path for delete
+        .collection('journals') 
         .doc(id)
         .delete();
   }
@@ -149,14 +145,14 @@ class _JournalPageState extends State<JournalPage> {
                           onDelete: () {
                             deleteJournal(journal['id'] ?? '').then((_) {
                               Navigator.pop(
-                                  context); // ✅ Return to JournalPage after delete
+                                  context); 
                             });
                           },
                           onEdit: (updatedJournal) {
                             updateJournal(journal['id'] ?? '', updatedJournal)
                                 .then((_) {
                               Navigator.pop(
-                                  context); // ✅ Return to JournalPage after edit
+                                  context); 
                             });
                           },
                         ),

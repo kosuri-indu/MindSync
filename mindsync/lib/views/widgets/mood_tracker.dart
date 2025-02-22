@@ -17,12 +17,10 @@ class _MoodTrackerState extends State<MoodTracker> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  /// Fetch mood data from Firestore
   Future<Map<String, dynamic>> _fetchMoodData() async {
     User? user = _auth.currentUser;
     if (user == null) return {"spots": [], "dates": []};
 
-    // Mapping mood image paths to numeric values
     Map<String, int> moodMapping = {
       "assets/images/angry_face.png": 1,
       "assets/images/sad_face.png": 2,
@@ -36,26 +34,24 @@ class _MoodTrackerState extends State<MoodTracker> {
           .collection('users')
           .doc(user.uid)
           .collection('journals')
-          .orderBy('date', descending: false) // Sort by date
+          .orderBy('date', descending: false) 
           .get();
 
       print("Fetched ${snapshot.docs.length} mood entries.");
 
-      Map<String, int> latestMoods = {}; // Stores latest mood for each date
+      Map<String, int> latestMoods = {}; 
 
       for (var doc in snapshot.docs) {
-        String dateString = doc['date']; // Example: "Feb 21, 2025"
-
+        String dateString = doc['date']; 
         try {
-          // Convert "Feb 21, 2025" to "YYYY-MM-DD"
           DateTime parsedDate = DateFormat("MMM dd, yyyy").parse(dateString);
           String formattedDate = DateFormat("yyyy-MM-dd").format(parsedDate);
 
-          String moodImagePath = doc['mood']; // Retrieve mood image path
+          String moodImagePath = doc['mood']; 
 
           if (moodMapping.containsKey(moodImagePath)) {
             latestMoods[formattedDate] =
-                moodMapping[moodImagePath]!; // Update latest mood for date
+                moodMapping[moodImagePath]!; 
           }
         } catch (e) {
           print("Date parsing error: $e");
@@ -64,7 +60,7 @@ class _MoodTrackerState extends State<MoodTracker> {
 
       List<FlSpot> moodPoints = [];
       List<String> sortedDates = latestMoods.keys.toList()
-        ..sort(); // Sort dates
+        ..sort(); 
       for (int i = 0; i < sortedDates.length; i++) {
         moodPoints
             .add(FlSpot(i.toDouble(), latestMoods[sortedDates[i]]!.toDouble()));
@@ -131,7 +127,6 @@ class _MoodTrackerState extends State<MoodTracker> {
     );
   }
 
-  /// Build line chart for mood tracking
   Widget _buildLineChart(List<FlSpot> moodData, List<String> dates) {
     return SizedBox(
       height: 200,
@@ -186,7 +181,6 @@ class _MoodTrackerState extends State<MoodTracker> {
     );
   }
 
-  /// Build bar chart for mood tracking
   Widget _buildBarChart(List<FlSpot> moodData, List<String> dates) {
     return SizedBox(
       height: 200,

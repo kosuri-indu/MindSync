@@ -1,24 +1,54 @@
 from flask import Blueprint, request, jsonify
-import random
+import firebase_admin
+from firebase_admin import credentials, firestore
+import os
+import google.generativeai as genai
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 main = Blueprint("main", __name__)
 
-positive_messages = [
-    "You are stronger than you think!",
-    "Every day is a new beginning.",
-    "Believe in yourself, and amazing things will happen.",
-    "Your potential is endless."
-]
+# Initialize Firebase
+cred = credentials.Certificate("../backend/credentials.json")
+firebase_admin.initialize_app(cred)
+db = firestore.client()
 
-@main.route("/analyze", methods=["POST"])
-def analyze_mood():
-    data = request.get_json()
-    journal_text = data.get("text", "").lower()
-    mood = data.get("mood", "neutral")
+# Configure Gemini API Key
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
-    response = {
-        "mood": mood,
-        "message": random.choice(positive_messages),
-    }
+@main.route("/fetch_journal_data/<user_id>", methods=["GET"])
+def fetch_journal_data(user_id):
+    try:
+        if not user_id:
+            return jsonify({"error": "User ID is required"}), 400
 
-    return jsonify(response)
+        print(f"Received request for user_id: {user_id}")  # Debugging
+
+        # Fetch journal entries from Firestore
+        collection_ref = db.collection("users").document(user_id).collection("journals")
+        docs = collection_ref.stream()
+
+        journal_entries = [doc.to_dict().get("content", "") for doc in docs if doc.to_dict()]
+
+        if not journal_entries:
+            return jsonify({"message": "No journal data found"}), 404
+
+        # Concatenate all journal entries into a single string
+        journal_text = "\n\n".join(journal_entries)
+
+        print("Sending this text to Gemini:", journal_text[:500])  # Debugging (print first 500 chars)
+
+        # Call Gemini API
+        model = genai.GenerativeModel("gemini-pro")
+        response = model.generate_content(f"Summarize and analyze the following journal entries for mental well-being insights:\n\n{journal_text}")
+
+        gemini_response = response.text if response.text else "No summary available."
+
+        return jsonify({"journal_data": journal_entries, "summary": gemini_response}), 200
+
+    except Exception as e:
+        print(f"Error fetching journal data: {e}")  # Debugging
+        return jsonify({"error": str(e)}), 500
+    

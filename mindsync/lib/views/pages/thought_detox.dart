@@ -35,7 +35,7 @@ class _ThoughtDetoxPageState extends State<ThoughtDetoxPage>
     String apiKey = dotenv.env['GEMINI_API_KEY'] ?? '';
 
     if (apiKey.isEmpty) {
-      print("⚠️ ERROR: API Key is missing!");
+      print("ERROR: API Key is missing!");
       return;
     }
 
@@ -73,7 +73,7 @@ class _ThoughtDetoxPageState extends State<ThoughtDetoxPage>
         _animationController.forward(from: 0);
       });
     } catch (e) {
-      print("⚠️ ERROR with Gemini: $e");
+      print("ERROR with Gemini: $e");
       setState(() {
         _response = "Something went wrong. Try again.";
       });
@@ -147,7 +147,7 @@ class _ThoughtDetoxPageState extends State<ThoughtDetoxPage>
                   alignment: Alignment.center,
                   children: [
                     Lottie.asset(
-                      'assets/lottie/fire.json', // ✅ Make sure this file is in `assets/`
+                      'assets/lottie/fire.json', 
                       width: 300,
                       repeat: true,
                     ),

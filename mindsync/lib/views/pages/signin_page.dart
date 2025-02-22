@@ -21,7 +21,7 @@ class _SignInScreenState extends State<SignInPage> {
   @override
   void initState() {
     super.initState();
-    Firebase.initializeApp(); // Ensure Firebase is initialized
+    Firebase.initializeApp(); 
   }
 
   Future<void> signIn() async {
@@ -135,7 +135,7 @@ class _SignInScreenState extends State<SignInPage> {
         return null;
       },
       decoration: InputDecoration(
-        labelText: hint, // Add label text
+        labelText: hint, 
         prefixIcon: Icon(icon),
         filled: true,
         fillColor: Colors.grey[200],

@@ -77,7 +77,7 @@ class _InfoPageState extends State<InfoPage> {
 
     if (_formKey.currentState!.validate()) {
       await FirebaseFirestore.instance.collection('users').doc(uid).set({
-        'userId': uid, // Ensures Firestore security rule conditions are met
+        'userId': uid, 
         'name': nameController.text,
         'age': int.tryParse(ageController.text) ?? 0,
         'gender': gender,
@@ -155,7 +155,7 @@ class _InfoPageState extends State<InfoPage> {
                     onPressed: _saveDataToFirestore,
                     child: Text('Submit'),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF9EB567), // Use primary color
+                      backgroundColor: Color(0xFF9EB567), 
                       padding: const EdgeInsets.symmetric(
                           horizontal: 32.0, vertical: 12.0),
                       shape: RoundedRectangleBorder(

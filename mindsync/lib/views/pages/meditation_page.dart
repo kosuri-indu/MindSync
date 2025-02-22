@@ -71,7 +71,7 @@ class _MeditationPageState extends State<MeditationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF5F5F5), // Set the background color
+      backgroundColor: Color(0xFFF5F5F5), 
       appBar: AppBar(
         title: const Text('Meditation', style: TextStyle(fontWeight: FontWeight.bold)),
         backgroundColor: Colors.white,
@@ -133,12 +133,12 @@ class _MeditationPageState extends State<MeditationPage> {
                   ),
                   const SizedBox(height: 20),
                   SizedBox(
-                    width: double.infinity, // Full width
+                    width: double.infinity,
                     child: ElevatedButton(
                       onPressed: _stopTimer,
                       child: const Text('Stop'),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF9EB567), // Use primary color
+                        backgroundColor: Color(0xFF9EB567), 
                         padding: const EdgeInsets.symmetric(
                             horizontal: 32.0, vertical: 12.0),
                         shape: RoundedRectangleBorder(

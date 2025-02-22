@@ -16,7 +16,7 @@ class _MainScreenState extends State<MainPage> {
   final List<Widget> _pages = [
     HomePage(),
     ExplorePage(),
-    JournalPage(), // Updated to JournalPage
+    JournalPage(),
     InsightsPage(),
     AccountPage(),
   ];
@@ -35,7 +35,7 @@ class _MainScreenState extends State<MainPage> {
         children: _pages,
       ),
       bottomNavigationBar: Container(
-        height: 70, // Increase the height of the navigation bar
+        height: 70, 
         child: BottomNavigationBar(
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
@@ -54,9 +54,9 @@ class _MainScreenState extends State<MainPage> {
               icon: Icon(
                 _selectedIndex == 2
                     ? Icons.book
-                    : Icons.book_outlined, // Updated to book icon
+                    : Icons.book_outlined,
               ),
-              label: 'Journal', // Updated label
+              label: 'Journal', 
             ),
             BottomNavigationBarItem(
               icon: Icon(

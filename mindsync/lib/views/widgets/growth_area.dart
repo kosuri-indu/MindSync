@@ -17,7 +17,7 @@ class _GrowthAreaState extends State<GrowthArea> {
   bool showRadarChart = true;
   late GenerativeModel _model;
   late ChatSession _chatSession;
-  List<double> _scores = List.filled(6, 50); // Default values
+  List<double> _scores = List.filled(6, 50);
 
   @override
   void initState() {
@@ -95,7 +95,7 @@ class _GrowthAreaState extends State<GrowthArea> {
 
     return extractedScores.length == 6
         ? extractedScores
-        : List.filled(6, 50); // Fallback to default
+        : List.filled(6, 50);
   }
 
   @override
@@ -162,8 +162,8 @@ class _GrowthAreaState extends State<GrowthArea> {
             angle: angle,
           );
         },
-        tickCount: 5, // Adjust the number of ticks
-        ticksTextStyle: TextStyle(color: Colors.transparent), // Hide tick labels
+        tickCount: 5, 
+        ticksTextStyle: TextStyle(color: Colors.transparent), 
       )),
     );
   }
@@ -205,7 +205,7 @@ class _GrowthAreaState extends State<GrowthArea> {
                     '📈'
                   ];
                   return Text(titles[value.toInt()],
-                      style: TextStyle(fontSize: 8)); // Reduced font size
+                      style: TextStyle(fontSize: 8)); 
                 },
               ),
             ),
@@ -237,14 +237,13 @@ class _GrowthAreaState extends State<GrowthArea> {
                 titles[index],
                 style: TextStyle(
                     fontSize: 12,
-                    fontWeight: FontWeight.w500), // Reduced font size
+                    fontWeight: FontWeight.w500), 
               ),
               Text(
                 _scores[index].toString(),
                 style: TextStyle(
                     fontSize: 12,
-                    fontWeight: FontWeight.w500), // Reduced font size
-              ),
+                    fontWeight: FontWeight.w500),               ),
             ],
           ),
         );
