@@ -81,22 +81,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       style: TextStyle(color: Colors.red, fontSize: 14),
                     ),
                   ),
-                const SizedBox(height: 20),
-                Row(
-                  children: const [
-                    Expanded(child: Divider()),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Text("or continue with"),
-                    ),
-                    Expanded(child: Divider()),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                Center(
-                  child: _buildSocialButton("assets/images/google.png"),
-                ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 Center(
                   child: TextButton(
                     onPressed: () {

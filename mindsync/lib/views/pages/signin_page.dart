@@ -92,36 +92,6 @@ class _SignInScreenState extends State<SignInPage> {
                           ),
                         ),
                       const SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Checkbox(value: false, onChanged: (value) {}),
-                              Text("Remember me"),
-                            ],
-                          ),
-                          TextButton(
-                            onPressed: () {},
-                            child: Text("Forgot Password?",
-                                style: TextStyle(color: primaryColor)),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      Row(
-                        children: const [
-                          Expanded(child: Divider()),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            child: Text("or continue with"),
-                          ),
-                          Expanded(child: Divider()),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      _buildSocialButton("assets/images/google.png"),
-                      const SizedBox(height: 20),
                       Center(
                         child: TextButton(
                           onPressed: () {
