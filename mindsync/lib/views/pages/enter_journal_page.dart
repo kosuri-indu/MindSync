@@ -104,7 +104,7 @@ class _EnterJournalPageState extends State<EnterJournalPage> {
               const SizedBox(height: 20),
               TextField(
                 controller: journalController,
-                maxLines: 10,
+                maxLines: 6,
                 decoration: InputDecoration(
                   hintText: 'Write your journal here...',
                   border: OutlineInputBorder(
