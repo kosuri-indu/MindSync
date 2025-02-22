@@ -58,7 +58,8 @@ class _AccountPageState extends State<AccountPage> {
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),
       appBar: AppBar(
-        title: Text("Account", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+        title: Text("Account",
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
@@ -137,8 +138,6 @@ class _AccountPageState extends State<AccountPage> {
                   Text(userName.isEmpty ? "User Name" : userName,
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                  Text(userGoals.isEmpty ? "No goals found" : userGoals,
-                      style: TextStyle(color: Colors.grey)),
                 ],
               ),
             ),
