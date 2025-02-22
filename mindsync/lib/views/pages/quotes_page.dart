@@ -112,7 +112,7 @@ class _QuotesPageState extends State<QuotesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),
-      appBar: AppBar(title: Text("Your Daily Quotes")),
+      appBar: AppBar(title: Text("Your Daily Quotes", style: TextStyle(fontWeight: FontWeight.bold))),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(

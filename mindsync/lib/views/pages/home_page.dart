@@ -29,10 +29,16 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Icon(Icons.spa, color: primaryColor),
-                    Text('Home',
-                        style: TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold)),
-                    Icon(Icons.search),
+                    Expanded(
+                      child: Center(
+                        child: Text(
+                          'Home',
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                    Container(width: 24), // Placeholder to balance the Row
                   ],
                 ),
                 SizedBox(height: 16),
@@ -138,7 +144,6 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
                     ),
-                    SizedBox(width: 10), // Space between buttons
                     // Voice Chat with Mindy Button
                     Expanded(
                       child: ActionButton(
@@ -159,7 +164,7 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
                 SizedBox(height: 16),
-                Text('Your plans for today (0/5)',
+                Text('Your plans for today (0/3)',
                     style:
                         TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                 SizedBox(height: 8),

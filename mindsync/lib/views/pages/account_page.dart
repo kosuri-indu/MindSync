@@ -2,7 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mindsync/data/colors.dart';
+import 'package:mindsync/views/pages/affirmations_page.dart';
+import 'package:mindsync/views/pages/breathing_page.dart';
+import 'package:mindsync/views/pages/challenge_page.dart';
+import 'package:mindsync/views/pages/chatbot_page.dart';
+import 'package:mindsync/views/pages/meditation_page.dart';
+import 'package:mindsync/views/pages/quotes_page.dart';
+import 'package:mindsync/views/pages/thought_detox.dart';
+import 'package:mindsync/views/pages/voice_chat_page.dart';
 import 'account_details_page.dart';
+import 'package:mindsync/widget_tree.dart';
 
 class AccountPage extends StatefulWidget {
   @override
@@ -12,8 +21,8 @@ class AccountPage extends StatefulWidget {
 class _AccountPageState extends State<AccountPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   String userName = "";
-  String userEmail = "";
-  String profileImage = "https://via.placeholder.com/150"; // Default image
+  String userGoals = "";
+  String profileImage = "https://via.placeholder.com/150";
 
   @override
   void initState() {
@@ -25,21 +34,15 @@ class _AccountPageState extends State<AccountPage> {
     User? user = _auth.currentUser;
     if (user != null) {
       try {
-        // Query the users collection where the email matches the logged-in user's email
-        QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        DocumentSnapshot userDoc = await FirebaseFirestore.instance
             .collection('users')
-            .where('email', isEqualTo: user.email) // Fetch user by email
-            .limit(1)
+            .doc(user.uid)
             .get();
 
-        if (querySnapshot.docs.isNotEmpty) {
-          var userData =
-              querySnapshot.docs.first; // Get first matching document
+        if (userDoc.exists) {
           setState(() {
-            userName =
-                userData.get('name') ?? "User Name"; // Ensure 'name' exists
-            userEmail =
-                user.email ?? "No email found"; // Use user.email directly
+            userName = userDoc.get('name') ?? "User Name";
+            userGoals = userDoc.get('goals') ?? "No goals found";
           });
         } else {
           print("No user document found.");
@@ -55,10 +58,11 @@ class _AccountPageState extends State<AccountPage> {
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),
       appBar: AppBar(
-        title: Text("Account", style: TextStyle(color: Colors.black)),
+        title: Text("Account", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
+        leading: Icon(Icons.spa, color: primaryColor),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -68,6 +72,8 @@ class _AccountPageState extends State<AccountPage> {
               _buildUpgradeBanner(),
               SizedBox(height: 16),
               _buildProfileSection(context),
+              SizedBox(height: 16),
+              _buildFeaturesList(context),
               SizedBox(height: 16),
               _buildSettingsList(context),
             ],
@@ -131,7 +137,7 @@ class _AccountPageState extends State<AccountPage> {
                   Text(userName.isEmpty ? "User Name" : userName,
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                  Text(userEmail.isEmpty ? "No email found" : userEmail,
+                  Text(userGoals.isEmpty ? "No goals found" : userGoals,
                       style: TextStyle(color: Colors.grey)),
                 ],
               ),
@@ -139,6 +145,33 @@ class _AccountPageState extends State<AccountPage> {
             Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildFeaturesList(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Column(
+        children: [
+          _buildListItem(Icons.mic, "AI Voice Chat", VoiceChatPage()),
+          _buildListItem(Icons.chat, "Text Chat", ChatbotPage()),
+          _buildListItem(Icons.spa, "Meditation", MeditationPage()),
+          _buildListItem(
+              Icons.self_improvement, "Breathing Exercises", BreathingPage()),
+          _buildListItem(
+              Icons.format_quote, "Daily Affirmations", AffirmationsPage()),
+          _buildListItem(Icons.lightbulb, "Inspirational Quotes", QuotesPage()),
+          _buildListItem(
+              Icons.cleaning_services, "Thought Detox", ThoughtDetoxPage()),
+          _buildListItem(Icons.emoji_events, "Comfort Zone Challenge",
+              ComfortChallengePage()),
+          _buildListItem(Icons.lock_clock, "Time Capsule", ThoughtDetoxPage()),
+        ],
       ),
     );
   }
@@ -152,32 +185,34 @@ class _AccountPageState extends State<AccountPage> {
       ),
       child: Column(
         children: [
-          _buildListItem(Icons.badge, "My Badges"),
-          _buildListItem(Icons.access_time, "Daily Reminder"),
-          _buildListItem(Icons.settings, "Preferences"),
-          Divider(),
-          _buildListItem(Icons.link, "Linked Accounts"),
-          _buildListItem(Icons.visibility, "App Appearance"),
-          _buildListItem(Icons.analytics, "Data & Analytics"),
           ListTile(
             leading: Icon(Icons.logout, color: Colors.red),
             title: Text("Logout", style: TextStyle(color: Colors.red)),
             onTap: () async {
               await _auth.signOut();
-              Navigator.pushReplacementNamed(context, '/signin');
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => WidgetTree()), // Redirects properly
+              );
             },
-          )
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildListItem(IconData icon, String title) {
+  Widget _buildListItem(IconData icon, String title, Widget page) {
     return ListTile(
       leading: Icon(icon, color: Colors.black54),
       title: Text(title),
       trailing: Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => page),
+        );
+      },
     );
   }
 }

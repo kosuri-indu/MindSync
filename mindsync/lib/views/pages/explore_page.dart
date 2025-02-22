@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:mindsync/data/colors.dart';
 import 'package:mindsync/views/pages/affirmations_page.dart';
 import 'package:mindsync/views/pages/challenge_page.dart';
+import 'package:mindsync/views/pages/chatbot_page.dart';
 import 'package:mindsync/views/pages/quotes_page.dart';
 import 'package:mindsync/views/pages/thought_detox.dart';
+import 'package:mindsync/views/pages/thought_sort_page.dart';
+import 'package:mindsync/views/pages/voice_chat_page.dart';
 import 'meditation_page.dart';
 import 'breathing_page.dart';
 
@@ -11,12 +14,13 @@ class ExplorePage extends StatelessWidget {
   final List<Map<String, String>> exploreItems = [
     {'title': 'Meditations', 'icon': 'assets/images/meditation.png'},
     {'title': 'Breathing', 'icon': 'assets/images/breathing.png'},
-    {'title': 'Articles', 'icon': 'assets/images/articles.png'},
-    {'title': 'Thought Detox', 'icon': 'assets/images/journal.png'},
+    {'title': 'ChatBot', 'icon': 'assets/images/articles.png'},
+    {'title': 'Thought Detox', 'icon': 'assets/images/detox.png'},
     {'title': 'Affirmations', 'icon': 'assets/images/affirmations.png'},
     {'title': 'Quotes', 'icon': 'assets/images/quotes.png'},
-    {'title': 'Time Capsule', 'icon': 'assets/images/time_capsule.png'},
+    {'title': 'Voice Talk', 'icon': 'assets/images/time_capsule.png'},
     {'title': 'Challenges', 'icon': 'assets/images/challenge.png'},
+    {'title': 'Thought Cloud', 'icon': 'assets/images/meditation.png'},
   ];
 
   @override
@@ -27,13 +31,6 @@ class ExplorePage extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: Icon(Icons.spa, color: primaryColor),
-        actions: [
-          IconButton(
-              icon: Icon(Icons.search, color: Colors.black), onPressed: () {}),
-          IconButton(
-              icon: Icon(Icons.favorite_border, color: Colors.black),
-              onPressed: () {}),
-        ],
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16),
@@ -79,6 +76,12 @@ class ExplorePage extends StatelessWidget {
                             MaterialPageRoute(
                                 builder: (context) => ThoughtDetoxPage()),
                           );
+                        } else if (exploreItems[index]['title'] == 'ChatBot') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ChatbotPage()),
+                          );
                         } else if (exploreItems[index]['title'] ==
                             'Affirmations') {
                           Navigator.push(
@@ -92,17 +95,26 @@ class ExplorePage extends StatelessWidget {
                             MaterialPageRoute(
                                 builder: (context) => QuotesPage()),
                           );
-                        } else if (exploreItems[index]['title'] == 'Time Capsule') {
+                        } else if (exploreItems[index]['title'] ==
+                            'Voice Talk') {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => QuotesPage()),
+                                builder: (context) => VoiceChatPage()),
                           );
-                        } else if (exploreItems[index]['title'] == 'Challenge') {
+                        } else if (exploreItems[index]['title'] ==
+                            'Challenges') {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => ComfortChallengePage()),
+                          );
+                        } else if (exploreItems[index]['title'] ==
+                            'Thought Cloud') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ThoughtSortingGame()),
                           );
                         }
                         // Add more conditions for other pages if needed

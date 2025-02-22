@@ -76,7 +76,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Account Details')),
+      appBar: AppBar(title: Text('Account Details', style: TextStyle(fontWeight: FontWeight.bold),)),
       body: isLoading
           ? Center(child: CircularProgressIndicator())
           : userData == null

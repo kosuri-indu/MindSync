@@ -11,17 +11,13 @@ class InsightsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Insights"),
+        title: const Text("Insights",
+            style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
         leading: Icon(Icons.spa, color: primaryColor),
         backgroundColor: Colors.white,
         elevation: 0,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.more_vert, color: Colors.black),
-            onPressed: () {},
-          )
-        ],
+        actions: [],
       ),
       backgroundColor: Color(0xFFF5F5F5),
       body: SingleChildScrollView(

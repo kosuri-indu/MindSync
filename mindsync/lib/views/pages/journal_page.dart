@@ -97,7 +97,7 @@ class _JournalPageState extends State<JournalPage> {
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),
       appBar: AppBar(
-        title: Text('My Journals'),
+        title: Text('My Journals',style: TextStyle(fontWeight: FontWeight.bold)),
         backgroundColor: Colors.white,
         elevation: 0,
         leading: Icon(Icons.spa, color: primaryColor),

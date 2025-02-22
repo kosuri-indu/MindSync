@@ -133,7 +133,8 @@ class _AffirmationsPageState extends State<AffirmationsPage> {
                   ),
                 ),
                 child: Text(_isLoading ? "Generating..." : "Get Affirmations",
-                    style: TextStyle(color: Colors.black)),
+                    style: TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.bold)),
               ),
             ),
             SizedBox(height: 40),

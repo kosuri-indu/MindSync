@@ -73,7 +73,7 @@ class _MeditationPageState extends State<MeditationPage> {
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5), // Set the background color
       appBar: AppBar(
-        title: const Text('Meditation'),
+        title: const Text('Meditation', style: TextStyle(fontWeight: FontWeight.bold)),
         backgroundColor: Colors.white,
         elevation: 0,
         iconTheme: IconThemeData(color: Colors.black),

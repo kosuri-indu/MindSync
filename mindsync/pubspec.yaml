@@ -26,6 +26,8 @@ dependencies:
   google_generative_ai: ^0.4.0
   flutter_tts: ^4.2.2
   speech_to_text: ^6.3.0
+  flame: ^1.8.1
+  flutter_animate: ^4.5.0
 
 dev_dependencies:
   flutter_test:

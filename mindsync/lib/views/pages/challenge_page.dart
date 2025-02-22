@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:mindsync/data/colors.dart'; // Ensure primaryColor is defined here
 
 class ComfortChallengePage extends StatefulWidget {
   @override
@@ -11,6 +12,7 @@ class _ComfortChallengePageState extends State<ComfortChallengePage> {
   final List<String> _challenges = [];
   late GenerativeModel _model;
   late ChatSession _chatSession;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -46,48 +48,82 @@ class _ComfortChallengePageState extends State<ComfortChallengePage> {
   }
 
   Future<void> _generateChallenges() async {
+    setState(() => _isLoading = true);
+
     try {
       final response = await _chatSession.sendMessage(Content.text(
           "Please provide 5 challenges to help someone step out of their comfort zone."));
       String challengesText = response.text ?? "No challenges available.";
 
-      setState(() {
-        _challenges.clear();
-        _challenges.addAll(challengesText
-            .split('\n')
-            .where((challenge) => challenge.isNotEmpty));
-      });
+      if (mounted) {
+        setState(() {
+          _challenges.clear();
+          _challenges.addAll(challengesText
+              .split('\n')
+              .where((challenge) => challenge.trim().isNotEmpty));
+        });
+      }
     } catch (e) {
-      setState(() {
-        _challenges.clear();
-        _challenges.add("Failed to load challenges. Please try again.");
-      });
+      if (mounted) {
+        setState(() {
+          _challenges.clear();
+          _challenges.add("Failed to load challenges. Please try again.");
+        });
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFF5F5F5),
       appBar: AppBar(
-        title: Text('Comfort Challenge'),
-      ),
+          title: Text("Comfort Challenge",
+              style: TextStyle(fontWeight: FontWeight.bold))),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            ElevatedButton(
-              onPressed: _generateChallenges,
-              child: Text('Generate Challenges'),
+            Container(
+              width: double.infinity,
+              margin: EdgeInsets.only(bottom: 16.0),
+              child: ElevatedButton(
+                onPressed: _isLoading ? null : _generateChallenges,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  padding: EdgeInsets.symmetric(vertical: 16.0),
+                  textStyle: TextStyle(fontSize: 18),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: Text(
+                    _isLoading ? "Generating..." : "Generate Challenges",
+                    style: TextStyle(color: Colors.black)),
+              ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 40),
             Expanded(
               child: ListView.builder(
                 itemCount: _challenges.length,
                 itemBuilder: (context, index) {
-                  return CheckboxListTile(
-                    title: Text(_challenges[index]),
-                    value: false,
-                    onChanged: (bool? value) {},
+                  bool isPrimaryColor = index % 2 == 0;
+                  return Card(
+                    color: isPrimaryColor ? primaryColor : Colors.white,
+                    margin: EdgeInsets.symmetric(vertical: 5),
+                    child: ListTile(
+                      title: Text(
+                        _challenges[index],
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: isPrimaryColor ? Colors.white : Colors.black,
+                        ),
+                      ),
+                    ),
                   );
                 },
               ),

@@ -101,7 +101,7 @@ class _InfoPageState extends State<InfoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tell us about yourself'),
+        title: Text('Tell us about yourself', style: TextStyle(fontWeight: FontWeight.bold)),
         backgroundColor: Colors.white,
         elevation: 0,
         iconTheme: IconThemeData(color: Colors.black),

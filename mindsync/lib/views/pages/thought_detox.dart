@@ -91,7 +91,9 @@ class _ThoughtDetoxPageState extends State<ThoughtDetoxPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Thought Detox")),
+      appBar: AppBar(
+          title: Text("Thought Detox",
+              style: TextStyle(fontWeight: FontWeight.bold))),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -149,6 +151,7 @@ class _ThoughtDetoxPageState extends State<ThoughtDetoxPage>
                       width: 300,
                       repeat: true,
                     ),
+                    SizedBox(height: 10),
                     AnimatedBuilder(
                       animation: _animation,
                       builder: (context, child) {
@@ -163,7 +166,7 @@ class _ThoughtDetoxPageState extends State<ThoughtDetoxPage>
                       child: Icon(
                         Icons.description,
                         size: 50,
-                        color: Colors.brown,
+                        color: Colors.black,
                       ),
                     ),
                   ],

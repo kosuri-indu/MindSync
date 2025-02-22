@@ -18,7 +18,7 @@ class _BreathingPageState extends State<BreathingPage> {
       appBar: AppBar(
         title: const Text(
           'Breathing Exercise',
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.white,
         elevation: 0,
