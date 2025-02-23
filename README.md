@@ -12,6 +12,8 @@ MindSync is a comprehensive mental well-being platform designed to help individu
 6. **Journaling Insights:** Analytical insights derived from user journaling activities.
 7. **Thought Detox and Thought Cloud:** Tools to help users detox negative thoughts and visualize their thought patterns.
 8. **Progress Tracking:** Insights and analytics to monitor user progress.
+9. **AI Chatbot - Snehi:** A smart AI chatbot designed to assist users with mental well-being by offering helpful, empathetic responses.
+10. **Conversational AI Companion - Snehi:** A talking AI companion providing interactive, empathetic, voice-based emotional support.
 
 ## Workflow
 ![image](https://github.com/user-attachments/assets/d1fad705-2cbd-4ddc-a45b-2bb2945c9e8b)
@@ -46,8 +48,8 @@ MindSync is a comprehensive mental well-being platform designed to help individu
 | **Name**           | 
 |--------------------|
 | Kosuri Lakshmi Indu  | 
-| Namratha Sriram      |  
 | Jahnvi Kakkar        | 
+| Namratha Sriram      |  
 
 
 
