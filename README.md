@@ -20,14 +20,15 @@ MindSync is a comprehensive mental well-being platform designed to help individu
 
 ## How We Are Building It  
 
-| **Component**           | **Technology Stack**                          |
-|------------------------|----------------------------------------------|
-| **Programming Language** | Dart(Flutter), Python                                      |
-| **Backend Frameworks**   | Flask, Firebase, Firestore                         |
-| **AI Model**   | Gemini 1.5 Flash                              |
-| **Voice Interaction**  | Google Text-to-Speech          |
-| **Data Visualization**   | Flutter Charts                              |
-| **Authentication**       | Firebase Auth                               |
+| **Component**            | **Technology Stack**                         |
+|--------------------------|----------------------------------------------|
+| **Programming Language** | Dart(Flutter), Python                        |
+| **Backend Frameworks**   | Flask, Firebase, Firestore                   |
+| **AI Model**             | Gemini 1.5 Flash                             |
+| **Design**             | Figma                             |
+| **Voice Interaction**    | Google Text-to-Speech                        |
+| **Data Visualization**   | Flutter Charts                               |
+| **Authentication**       | Firebase Auth                                |
 
 ## Challenges Faced
 
@@ -45,11 +46,10 @@ MindSync is a comprehensive mental well-being platform designed to help individu
 
 ## Team
 
-| **Name**           | 
-|--------------------|
-| Kosuri Lakshmi Indu  | 
-| Jahnvi Kakkar        | 
+| **Name**             |  
+|----------------------|
+| Kosuri Lakshmi Indu  |  
 | Namratha Sriram      |  
+| Jahnvi Kakkar        |  
 
-
-
+ 
